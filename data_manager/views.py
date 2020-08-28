@@ -6,7 +6,6 @@ import json
 
 import pandas as pd
 
-from data_manager.models import Dataset, Variable
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,

@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'visualiser',
-    'data_manager'
+    # 'data_manager'
 ]
 
 MIDDLEWARE = [
