@@ -6,6 +6,7 @@ import json
 
 import pandas as pd
 
+from data_manager.settings import ENGINE_STRING
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
@@ -110,7 +111,6 @@ def heatmap_ordering(order, variables, var_position):
 
 
 def create_users_per_country():
-
     users_df = pd.read_sql_table('users', ENGINE_STRING)
     group = users_df[['country', 'id']].groupby('country').count().reset_index()
     final_values = list(group.to_dict('index').values())
