@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="19ef2fbb-f249-4e43-a75a-21659b7c98be" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_manager/manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_manager/manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -39,15 +41,15 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\user\PycharmProjects\visualisation_engine\visualiser\fake_data" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\epu\PycharmProjects\visualisation_engine\static\amcharts4" />
       <recent name="C:\Users\epu\PycharmProjects\visualisation_engine\data_manager" />
       <recent name="C:\Users\epu\PycharmProjects\visualisation_engine\static" />
       <recent name="C:\Users\epu\PycharmProjects\visualisation_engine\templates" />
       <recent name="C:\Users\epu\PycharmProjects\visualisation_engine" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\PycharmProjects\visualisation_engine\visualiser\fake_data" />
     </key>
   </component>
   <component name="RunManager">
@@ -90,6 +92,7 @@
       <workItem from="1598450436637" duration="7175000" />
       <workItem from="1598516876855" duration="5735000" />
       <workItem from="1598603935528" duration="6569000" />
+      <workItem from="1598612484391" duration="736000" />
     </task>
     <task id="LOCAL-00001" summary="project initialisation">
       <created>1598452109272</created>

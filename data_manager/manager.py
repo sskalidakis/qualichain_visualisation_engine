@@ -110,12 +110,7 @@ def heatmap_ordering(order, variables, var_position):
 
 
 def create_users_per_country():
-    ENGINE_STRING = 'postgresql+psycopg2://{}:{}@{}/{}'.format(
-        'admin',
-        'admin',
-        'qualichain.epu.ntua.gr',
-        'api_db'
-    )
+
     users_df = pd.read_sql_table('users', ENGINE_STRING)
     group = users_df[['country', 'id']].groupby('country').count().reset_index()
     final_values = list(group.to_dict('index').values())
