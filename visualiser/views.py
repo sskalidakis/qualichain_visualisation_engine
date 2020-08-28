@@ -340,7 +340,7 @@ def show_pie_chart(request):
     min_max_y_value = response_data["min_max_y_value"]
     chart_3d = response_data["chart_3d"]
     use_default_colors = response_data["use_default_colors"]
-    data = PIE_CHART_DATA
+    data = group_users_per_column(category_name)
     color_list = define_color_code_list(color_list_request)
 
     pie_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
