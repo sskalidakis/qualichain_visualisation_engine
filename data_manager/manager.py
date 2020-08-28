@@ -110,8 +110,9 @@ def heatmap_ordering(order, variables, var_position):
     return ordering
 
 
-def create_users_per_country():
+def group_users_per_column(column, aggregation="count"):
+    """This function is used to group users table according to provided column"""
     users_df = pd.read_sql_table('users', ENGINE_STRING)
-    group = users_df[['country', 'id']].groupby('country').count().reset_index()
+    group = users_df[[column, 'id']].groupby(column).agg(aggregation).reset_index()
     final_values = list(group.to_dict('index').values())
     return final_values
