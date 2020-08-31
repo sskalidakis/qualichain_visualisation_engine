@@ -34,6 +34,8 @@
             categoryAxis.dataFields.category = x_axis_name;
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 30;
+            categoryAxis.renderer.labels.template.rotation = -20;
+            categoryAxis.renderer.labels.template.fontSize = "0.8em";
             categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
             categoryAxis.title.fontWeight = 600;
             categoryAxis.title.marginTop = 10;
@@ -77,7 +79,7 @@
 
             // Add scrollbar
             chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.series.push(series[0]);
+            chart.scrollbarX.renderer.labels.template.disabled = true;
 
             function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title,
                                    x_axis_name, chart_3d) {
@@ -95,7 +97,7 @@
 
                 }
 
-                series.columns.template.tooltipText = y_axis_title + "- {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
+                series.columns.template.tooltipText = y_axis_title + ": {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
 
                 series.dataFields.valueY = myVar;
                 series.dataFields.categoryX = x_axis_name;
