@@ -118,6 +118,12 @@ def group_users_per_column(column, aggregation="count"):
     return final_values
 
 
+def build_bar_chart(base_query, x_axis_name, **kwargs):
+    """This abstract function is used to call submethods/specific model"""
+    if base_query == 'group_users':
+        bar_chart_input = group_users_per_column(x_axis_name)
+    return bar_chart_input
+
 # def courses_most_popular_skills(column, aggregation="count", number_of_courses=15):
 #     """This function is used to find courses with the most popular skills"""
 #
