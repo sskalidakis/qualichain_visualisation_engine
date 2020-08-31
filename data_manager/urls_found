@@ -21,7 +21,6 @@ http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=
 
 COURSES- SKILLS
 ----------------
-
 popular skills
 (bar_chart)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills
@@ -32,3 +31,8 @@ popular courses
 (bar chart)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses
 
+
+JOBS
+------
+User-Job application
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number of Applications&y_var_units[]=%20&x_axis_type=text&x_axis_name=employment_type&x_axis_title=Employer&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_job_user

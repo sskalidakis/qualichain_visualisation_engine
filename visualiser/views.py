@@ -6,7 +6,7 @@ from django.apps import apps
 
 from django.http import HttpResponse
 
-from data_manager.manager import create_heatmap_data, group_users_per_column, build_bar_chart
+from data_manager.manager import create_heatmap_data, group_users_per_column, build_bar_chart, user_jobs_groups
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -317,9 +317,8 @@ def show_column_chart(request):
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     # data = response_data["dataset"]
     #data = COLUMNCHART_DATA
-    print(x_axis_name)
     data = build_bar_chart(base_query=base_query,x_axis_name=x_axis_name)
-    print(data)
+
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
