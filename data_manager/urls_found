@@ -1,5 +1,24 @@
+USERS
+------
+
 Users/country
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Count&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=country&x_axis_title=Country&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=%20&x_axis_type=text&x_axis_name=country&x_axis_title=Country&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
 (pie_chart)
-http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Users&y_var_units[]=-&x_axis_name=country&x_axis_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=gold&color_list_request[]=ceramic&color_list_request[]=fuchsia&color_list_request[]=violet&color_list_request[]=purple&color_list_request[]=cyan
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_name=country&x_axis_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=gold&color_list_request[]=ceramic&color_list_request[]=fuchsia&color_list_request[]=violet&color_list_request[]=purple&color_list_request[]=cyan
+
+User/pilot
+(bar_chart)
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=pilotId&x_axis_title=Pilot&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+(pie_chart)
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=pilotId&x_axis_title=Pilot&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+
+User/role
+(bar_chart)
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=role&x_axis_title=Role&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+(pie_chart)
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=role&x_axis_title=Role&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+
+COURSES- SKILLS
+----------------
+

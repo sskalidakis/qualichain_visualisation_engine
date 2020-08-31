@@ -116,3 +116,14 @@ def group_users_per_column(column, aggregation="count"):
     group = users_df[[column, 'id']].groupby(column).agg(aggregation).reset_index()
     final_values = list(group.to_dict('index').values())
     return final_values
+
+
+# def courses_most_popular_skills(column, aggregation="count", number_of_courses=15):
+#     """This function is used to find courses with the most popular skills"""
+#
+#     job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
+#     group = job_skills_df[[column, 'id']].groupby('skill_id').agg(aggregation).reset_index()
+#     import pdb
+#     pdb.set_trace()
+#     final_values = list(group.to_dict('index').values())
+#     return final_values
