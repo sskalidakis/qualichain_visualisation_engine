@@ -315,9 +315,7 @@ def show_column_chart(request):
     chart_3d = response_data["chart_3d"]
     base_query = response_data["base_query"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = response_data["dataset"]
-    #data = COLUMNCHART_DATA
-    data = build_bar_chart(base_query=base_query,x_axis_name=x_axis_name)
+    data = build_bar_chart(base_query=base_query, x_axis_name=x_axis_name)
 
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
