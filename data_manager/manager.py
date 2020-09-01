@@ -182,6 +182,34 @@ def user_jobs_groups(column, user_id):
     return data
 
 
+def calculate_salary_insights(sql_command, aggregation, column="country"):
+    """This function is used to calculate salary insights"""
+    info = get_table(sql_command=sql_command)
+    if column:
+        group = info[["level_value", "exp_salary", column]].groupby(['level_value', column]).agg(aggregation)
+    else:
+        group = info[["level_value", "exp_salary"]].groupby(['level_value']).agg(aggregation)
+    values = group.reset_index().to_dict('index').values()
+    return values
+
+
+def salary_information(x_axis_name='country', data=None, aggregation="mean"):
+    """This function is used to fetch insights about Qualichain job applications"""
+    if data:
+        column = x_axis_name
+        if len(data) == 1:
+            salary_command = """SELECT * from jobs JOIN user_applications ON jobs.id=user_applications.job_id where jobs.{}='{}'""".format(
+                x_axis_name, data[0])
+        else:
+            salary_command = """SELECT * from jobs JOIN user_applications ON jobs.id=user_applications.job_id where jobs.{} in {}""".format(
+                x_axis_name, tuple(data))
+    else:
+        column = x_axis_name
+        salary_command = """SELECT * FROM jobs JOIN user_applications ON jobs.id=user_applications.job_id"""
+    values = calculate_salary_insights(sql_command=salary_command, column=column, aggregation=aggregation)
+    return values
+
+
 def build_bar_chart(x_axis_name, request, **kwargs):
     """This abstract function is used to call submethods/specific model"""
     base_query = request.GET.get("base_query", None)
