@@ -137,20 +137,49 @@ def group_users_per_column(column, aggregation="count"):
     return final_values
 
 
-def user_jobs_groups(column, aggregation="count"):
-    """This function is used to aggregate jobs data for a specific user"""
-    sql_command = """SELECT job_id from user_applications where user_id={}""".format(1)
-    user_applied_jobs = get_table(sql_command=sql_command)
-    job_ids = user_applied_jobs["job_id"].to_list()
-    if len(job_ids) == 1:
-        fetch_jobs = """SELECT * from jobs where id in ({})""".format(job_ids[0])
+def get_user_applied_jobs(user_id):
+    """This function is used to retrieve user applied jobs"""
+    if user_id:
+        sql_get_applications = """SELECT job_id from user_applications where user_id={}""".format(user_id)
+        user_applied_jobs = get_table(sql_command=sql_get_applications)
+        job_ids = user_applied_jobs["job_id"].to_list()
+        return job_ids
     else:
-        job_tuples = tuple(job_ids)
-        fetch_jobs = """SELECT * from jobs where id in {}""".format(job_tuples)
-    related_jobs = get_table(sql_command=fetch_jobs)
-    group = related_jobs[[column, "id"]].groupby(column).agg(aggregation).reset_index()
-    values = list(group.to_dict('index').values())
-    return values
+        return None
+
+
+def get_job_application_stats(sql_command, column, aggregation="count"):
+    """This function is used to retrieve job application insights"""
+    if sql_command:
+        related_jobs = get_table(sql_command=sql_command)
+        group = related_jobs[[column, "id"]].groupby(column).agg(aggregation).reset_index()
+        values = list(group.to_dict('index').values())
+        return values
+    else:
+        return None
+
+
+def user_jobs_groups(column, user_id):
+    """This function is used to aggregate jobs data for a specific user"""
+    job_ids = get_user_applied_jobs(user_id)
+
+    if job_ids:
+        job_ids_cnt = len(job_ids)
+        if job_ids_cnt == 1:
+            fetch_jobs = """SELECT * from jobs where id in ({})""".format(job_ids[0])
+        elif job_ids_cnt > 1:
+            job_tuples = tuple(job_ids)
+            fetch_jobs = """SELECT * from jobs where id in {}""".format(job_tuples)
+        else:
+            fetch_jobs = None
+    else:
+        if user_id is not None:
+            fetch_jobs = None
+        else:
+            fetch_jobs = """SELECT * from jobs"""
+
+    data = get_job_application_stats(sql_command=fetch_jobs, column=column)
+    return data
 
 
 def build_bar_chart(x_axis_name, request, **kwargs):
@@ -161,7 +190,8 @@ def build_bar_chart(x_axis_name, request, **kwargs):
     if base_query == 'group_users':
         bar_chart_input = group_users_per_column(x_axis_name)
     elif base_query == 'group_job_user':
-        bar_chart_input = user_jobs_groups(x_axis_name)
+        user_id = request.GET.get("user_id", None)
+        bar_chart_input = user_jobs_groups(x_axis_name, user_id)
     elif base_query == 'most_popular_skills_market':
         bar_chart_input = popular_skills('most')
     elif base_query == 'most_popular_courses_market':
