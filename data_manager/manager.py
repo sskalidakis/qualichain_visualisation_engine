@@ -153,8 +153,10 @@ def user_jobs_groups(column, aggregation="count"):
     return values
 
 
-def build_bar_chart(base_query, x_axis_name, **kwargs):
+def build_bar_chart(x_axis_name, request, **kwargs):
     """This abstract function is used to call submethods/specific model"""
+    base_query = request.GET.get("base_query", None)
+
     bar_chart_input = []
     if base_query == 'group_users':
         bar_chart_input = group_users_per_column(x_axis_name)
@@ -204,6 +206,7 @@ def popular_user_courses(popular, number_of_courses=10):
     final_values = list(popular_courses.to_dict('index').values())
     print(final_values)
     return final_values
+
 
 def popular_skills(popular, most_popular_skills=10):
     """This function is used to find the most popular skills"""

@@ -259,9 +259,7 @@ def get_response_data_XY(request):
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
-            "distinct": request.GET.getlist("distinct[]", []),
-            "base_query": request.GET.get("base_query", "")
-
+            "distinct": request.GET.getlist("distinct[]", [])
         }
     else:
         json_response = json.loads(request.body.decode('utf-8'))
@@ -313,9 +311,8 @@ def show_column_chart(request):
     color_list_request = response_data["color_list_request"]
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
-    base_query = response_data["base_query"]
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = build_bar_chart(base_query=base_query, x_axis_name=x_axis_name)
+    data = build_bar_chart(x_axis_name, request)
 
     color_list = define_color_code_list(color_list_request)
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
