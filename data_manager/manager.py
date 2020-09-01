@@ -208,7 +208,25 @@ def build_bar_chart(x_axis_name, request, **kwargs):
         bar_chart_input = popular_user_skills('least')
     elif base_query == 'least_popular_courses_users':
         bar_chart_input = popular_user_courses('least')
+    elif base_query == 'group_course_professor':
+        limit_professors = request.GET.get("limit_professors", 10)
+        asc_ordering = request.GET.get("asc", False)
+        bar_chart_input = group_courses_users(limit_professors, asc_ordering)
     return bar_chart_input
+
+
+def group_courses_users(limit, asc):
+    """This function is used to find the number of courses per professor"""
+    user_courses_df = pd.read_sql_table('user_courses', ENGINE_STRING)
+    professor_courses_df = user_courses_df.where(user_courses_df['status_value'] == 'taught')
+    grouped_professor_courses_df = professor_courses_df[['user_id', 'id']].groupby('user_id').size().reset_index(
+        name='count').sort_values('count', ascending=asc).tail(limit)
+    users_df = pd.read_sql_table('users', ENGINE_STRING).rename(columns={'id': 'user_id', 'fullName': 'user_name'})
+    professors_courses = pd.merge(grouped_professor_courses_df, users_df, how='left', on='user_id')[
+        ['user_name', 'count']].sort_values('count', ascending=asc)
+    final_values = list(professors_courses.to_dict('index').values())
+    print(final_values)
+    return final_values
 
 
 def popular_user_skills(popular, most_popular_skills=10):
@@ -228,6 +246,7 @@ def popular_user_courses(popular, number_of_courses=10):
     """This function is used to find the most popular courses in the Qualichain users"""
     asc = asc_desc_popularity_ordering(popular)
     user_courses_df = pd.read_sql_table('user_courses', ENGINE_STRING)
+    user_courses_df = user_courses_df.where(user_courses_df['status_value'] != 'taught')
     grouped_user_courses_df = user_courses_df[['course_id', 'id']].groupby('course_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(number_of_courses)
     courses_df = pd.read_sql_table('courses', ENGINE_STRING).rename(columns={'id': 'course_id', 'name': 'course_name'})

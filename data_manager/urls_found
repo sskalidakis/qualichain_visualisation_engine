@@ -50,10 +50,14 @@ Most popular skills (users)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_skills_users
 
 Least popular skills(users)
+(bar chart)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_skills_users
 
+Courses per Professor
+(bar_chart)
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Courses&y_var_units[]=number%20of%20courses&x_axis_type=text&x_axis_name=user_name&x_axis_title=Professor&y_axis_title=Courses%20taught&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_course_professor
 
-(bar chart)
+
 JOBS
 ------
 User-Job application
