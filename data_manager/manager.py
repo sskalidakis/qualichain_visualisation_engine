@@ -194,20 +194,20 @@ def calculate_salary_insights(sql_command, aggregation, column="country"):
     return values
 
 
-def salary_information(x_axis_name='country', data=None, aggregation="mean"):
+def salary_information(aggregation, y_column=None, data=None):
     """This function is used to fetch insights about Qualichain job applications"""
     if data:
-        column = x_axis_name
+        column = y_column
         if len(data) == 1:
             salary_command = """SELECT * from jobs JOIN user_applications ON jobs.id=user_applications.job_id where jobs.{}='{}'""".format(
-                x_axis_name, data[0])
+                y_column, data[0])
         else:
             salary_command = """SELECT * from jobs JOIN user_applications ON jobs.id=user_applications.job_id where jobs.{} in {}""".format(
-                x_axis_name, tuple(data))
+                y_column, tuple(data))
     else:
-        column = x_axis_name
+        column = None
         salary_command = """SELECT * FROM jobs JOIN user_applications ON jobs.id=user_applications.job_id"""
-    values = calculate_salary_insights(sql_command=salary_command, column=column, aggregation=aggregation)
+    values = list(calculate_salary_insights(sql_command=salary_command, column=column, aggregation=aggregation))
     return values
 
 
@@ -241,6 +241,16 @@ def build_bar_chart(x_axis_name, request, **kwargs):
         limit_professors = int(request.GET.get("limit_professors", 10))
         asc_ordering = request.GET.get("asc", "False")
         bar_chart_input = group_courses_users(limit_professors, asc_ordering)
+    elif base_query == 'salary_info':
+        y_column = request.GET.get('y_column', None)
+        y_var_names = request.GET.getlist("y_var_names[]", [])
+        agg = request.GET.get('agg', 'mean')
+
+        if y_column and y_var_names:
+            bar_chart_input = salary_information(data=y_var_names,y_column=y_column, aggregation=agg)
+            print(bar_chart_input)
+        else:
+            bar_chart_input = salary_information(aggregation=agg)
     return bar_chart_input
 
 
