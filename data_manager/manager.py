@@ -250,7 +250,6 @@ def build_bar_chart(x_axis_name, request, **kwargs):
             print(bar_chart_input)
         else:
             bar_chart_input = salary_information(aggregation=agg)
-    print(bar_chart_input)
     return bar_chart_input
 
 
