@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('show_line_chart', views.show_line_chart, name='show_line_chart'),
     path('show_column_chart', views.show_column_chart, name='show_column_chart'),
+    path('show_ma_column_chart', views.show_ma_column_chart, name='show_ma_column_chart'),
     path('show_pie_chart', views.show_pie_chart, name='show_pie_chart'),
     path('show_radar_chart', views.show_radar_chart, name='show_radar_chart'),
     path('show_range_chart', views.show_range_chart, name='show_range_chart'),

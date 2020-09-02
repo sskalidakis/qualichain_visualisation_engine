@@ -11,9 +11,7 @@ from data_manager.manager import create_heatmap_data, group_users_per_column, bu
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP
-
-
+    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, CL_COLUMNCHART_DATA
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -151,6 +149,9 @@ class XY_chart:
                           self.content)
         elif self.chart_type == 'column_chart':
             return render(self.request, 'visualiser/column_chart_am4.html',
+                          self.content)
+        elif self.chart_type == 'ma_column_chart':
+            return render(self.request, 'visualiser/multi_axial_column_chart_am4.html',
                           self.content)
         elif self.chart_type == 'range_chart':
             return render(self.request, 'visualiser/range_chart_am4.html',
@@ -319,6 +320,31 @@ def show_column_chart(request):
     column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
                             x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
                             'column_chart')
+    return column_chart.show_chart()
+
+
+def show_ma_column_chart(request):
+    # Use get_response_data_XY to get the same variables
+    response_data = get_response_data_XY(request)
+    y_var_names = response_data["y_var_names"]
+    y_var_titles = response_data["y_var_titles"]
+    y_var_units = response_data["y_var_units"]
+    x_axis_type = response_data["x_axis_type"]
+    x_axis_name = response_data["x_axis_name"]
+    x_axis_title = response_data["x_axis_title"]
+    x_axis_unit = response_data["x_axis_unit"]
+    y_axis_title = response_data["y_axis_title"]
+    min_max_y_value = response_data["min_max_y_value"]
+    color_list_request = response_data["color_list_request"]
+    use_default_colors = response_data["use_default_colors"]
+    chart_3d = response_data["chart_3d"]
+    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+    # data = build_bar_chart(x_axis_name, request)
+    data= COLUMNCHART_DATA
+    color_list = define_color_code_list(color_list_request)
+    column_chart = XY_chart(request, x_axis_name, x_axis_title, x_axis_unit, y_var_names, y_var_titles, y_var_units,
+                            x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d, min_max_y_value,
+                            'ma_column_chart')
     return column_chart.show_chart()
 
 

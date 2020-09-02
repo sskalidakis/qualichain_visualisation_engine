@@ -108,6 +108,20 @@ COLUMNCHART_DATA = [{
  "year2018": 10.1
 }]
 
+CL_COLUMNCHART_DATA = [{
+    "level": "inter",
+    "Greece": 10000,
+    "Spain": 30000,
+}, {
+    "level": "amateur",
+    "Greece": 30000,
+    "Spain": 10000
+}, {
+    "country": "professional",
+    "Greece": 300000,
+    "Spain": 200000
+}]
+
 BAR_RANGE_CHART_DATA = [
  {
   "name": "John",
