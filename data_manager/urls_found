@@ -61,7 +61,7 @@ http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_tit
 JOBS
 ------
 User-Job application
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number of Applications&y_var_units[]=%20&x_axis_type=text&x_axis_name=employment_type&x_axis_title=Employer&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_job_user
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number of Applications&y_var_units[]=%20&x_axis_type=text&x_axis_name=employment_value&x_axis_title=Employment Level&y_axis_title=Number of applications&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_job_user
 
 level - Salary Expectation
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=exp_salary&y_var_titles[]=Expected Salary&y_var_units[]=%&x_axis_type=text&x_axis_name=level_value&x_axis_title=Seniority Level&y_axis_title=Expected Salary&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=salary_info
