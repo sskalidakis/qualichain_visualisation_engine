@@ -79,6 +79,13 @@ HEAT_MAP_COUNTRIES_CODES = [
                         ]
 
 
+def convert_string_to_boolean(string):
+    if string == 'True':
+        return True
+    else:
+        return False
+
+
 def generate_data_for_heat_map():
     data = []
     for country in HEAT_MAP_COUNTRIES_CODES:

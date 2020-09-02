@@ -5,53 +5,53 @@ Users/country
 (bar_chart)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=%20&x_axis_type=text&x_axis_name=country&x_axis_title=Country&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_users
 (pie_chart)
-http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_name=country&x_axis_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=gold&color_list_request[]=ceramic&color_list_request[]=fuchsia&color_list_request[]=violet&color_list_request[]=purple&color_list_request[]=cyan
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_name=country&x_axis_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=gold&color_list_request[]=ceramic&color_list_request[]=fuchsia&color_list_request[]=violet&color_list_request[]=purple&color_list_request[]=cyan&base_query=group_users
 
 User/pilot
 (bar_chart)
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=pilotId&x_axis_title=Pilot&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_users
 (pie_chart)
-http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=pilotId&x_axis_title=Pilot&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=pilotId&x_axis_title=Pilot&y_axis_title=Count&use_default_colors=true&chart_3d=true&base_query=group_users
 
 User/role
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=role&x_axis_title=Role&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_users
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=&y_var_units[]=%&x_axis_type=text&x_axis_name=role_value&x_axis_title=Role&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_users
 (pie_chart)
-http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=role&x_axis_title=Role&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false
+http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=role_value&x_axis_title=Role&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=yellow&chart_3d=true&use_default_colors=false&base_query=group_usersbase_query=group_users
 
 COURSES- SKILLS
 ----------------
 Most popular skills (job market)
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_skills_market
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=True&limit_skills=10
 
 Least popular skills (job market)
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=least_popular_courses_market
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=False&limit_skills=10
 
 
 Most popular courses(job market)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_courses_market
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=True&limit_courses=10
 
 Least popular courses(job market)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=least_popular_courses_market
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=False&limit_courses=10
 
 Most popular courses (users)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_courses_users
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_users&asc=True&limit_courses=10
 
 Least popular courses(users)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_courses_users
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_users&asc=False&limit_courses=10
 
 Most popular skills (users)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_skills_users
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_users&asc=True&limit_skills=10
 
 Least popular skills(users)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=most_popular_skills_users
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Number%20of%20Users&y_var_units[]=number%20of%20users&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Preference%20of%20Users%20&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_users&asc=False&limit_skills=10
 
 Courses per Professor
 (bar_chart)
@@ -61,4 +61,4 @@ http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_tit
 JOBS
 ------
 User-Job application
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number of Applications&y_var_units[]=%20&x_axis_type=text&x_axis_name=employment_type&x_axis_title=Employer&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_job_user
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles[]=Number of Applications&y_var_units[]=%20&x_axis_type=text&x_axis_name=employment_value&x_axis_title=Employer&y_axis_title=Users&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_job_user

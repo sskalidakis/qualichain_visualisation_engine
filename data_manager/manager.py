@@ -7,6 +7,7 @@ import json
 import pandas as pd
 
 from data_manager.settings import ENGINE_STRING
+from visualiser.utils import convert_string_to_boolean
 from visualiser.visualiser_settings import DATA_TABLES_APP
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
@@ -220,31 +221,47 @@ def build_bar_chart(x_axis_name, request, **kwargs):
     elif base_query == 'group_job_user':
         user_id = request.GET.get("user_id", None)
         bar_chart_input = user_jobs_groups(x_axis_name, user_id)
-    elif base_query == 'most_popular_skills_market':
-        bar_chart_input = popular_skills('most')
-    elif base_query == 'most_popular_courses_market':
-        bar_chart_input = popular_courses('most')
-    elif base_query == 'least_popular_skills_market':
-        bar_chart_input = popular_skills('least')
-    elif base_query == 'least_popular_courses_market':
-        bar_chart_input = popular_courses('least')
-    elif base_query == 'most_popular_skills_users':
-        bar_chart_input = popular_user_skills('most')
-    elif base_query == 'most_popular_courses_users':
-        bar_chart_input = popular_user_courses('most')
-    elif base_query == 'least_popular_skills_users':
-        bar_chart_input = popular_user_skills('least')
-    elif base_query == 'least_popular_courses_users':
-        bar_chart_input = popular_user_courses('least')
+    elif base_query == 'popular_skills_market':
+        limit_skills = int(request.GET.get("limit_skills", 10))
+        asc = request.GET.get("asc", "False")
+        bar_chart_input = popular_skills(asc, limit_skills)
+    elif base_query == 'popular_courses_market':
+        limit_skills = int(request.GET.get("limit_courses", 10))
+        asc = request.GET.get("asc", "False")
+        bar_chart_input = popular_courses(asc, limit_skills)
+    elif base_query == 'popular_skills_users':
+        limit_skills = int(request.GET.get("limit_skills", 10))
+        asc = request.GET.get("asc", "False")
+        bar_chart_input = popular_user_skills(asc, limit_skills)
+    elif base_query == 'popular_courses_users':
+        limit_skills = int(request.GET.get("limit_courses", 10))
+        asc = request.GET.get("asc", "False")
+        bar_chart_input = popular_user_courses(asc, limit_skills)
     elif base_query == 'group_course_professor':
-        limit_professors = request.GET.get("limit_professors", 10)
-        asc_ordering = request.GET.get("asc", False)
+        limit_professors = int(request.GET.get("limit_professors", 10))
+        asc_ordering = request.GET.get("asc", "False")
         bar_chart_input = group_courses_users(limit_professors, asc_ordering)
+    return bar_chart_input
+
+
+def build_pie_chart(category_name, request, **kwargs):
+    """This abstract function is used to call submethods/specific model"""
+    base_query = request.GET.get("base_query", None)
+
+    bar_chart_input = []
+    if base_query == 'group_users':
+        bar_chart_input = group_users_per_column(category_name)
+    elif base_query == 'group_job_user':
+        user_id = request.GET.get("user_id", None)
+        bar_chart_input = user_jobs_groups(category_name, user_id)
+    elif base_query == 'group_course_professor':
+        bar_chart_input = group_courses_users(999, 'True')
     return bar_chart_input
 
 
 def group_courses_users(limit, asc):
     """This function is used to find the number of courses per professor"""
+    asc = convert_string_to_boolean(asc)
     user_courses_df = pd.read_sql_table('user_courses', ENGINE_STRING)
     professor_courses_df = user_courses_df.where(user_courses_df['status_value'] == 'taught')
     grouped_professor_courses_df = professor_courses_df[['user_id', 'id']].groupby('user_id').size().reset_index(
@@ -257,9 +274,9 @@ def group_courses_users(limit, asc):
     return final_values
 
 
-def popular_user_skills(popular, most_popular_skills=10):
+def popular_user_skills(asc, most_popular_skills):
     """This function is used to find the most popular skills in the Qualichain users (appearing in cvs)"""
-    asc = asc_desc_popularity_ordering(popular)
+    asc = convert_string_to_boolean(asc)
     cv_skills_df = pd.read_sql_table('cv_skills', ENGINE_STRING)
     grouped_cv_skills_df = cv_skills_df[['skill_id', 'id']].groupby('skill_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(most_popular_skills)
@@ -270,9 +287,9 @@ def popular_user_skills(popular, most_popular_skills=10):
     return final_values
 
 
-def popular_user_courses(popular, number_of_courses=10):
+def popular_user_courses(asc, number_of_courses):
     """This function is used to find the most popular courses in the Qualichain users"""
-    asc = asc_desc_popularity_ordering(popular)
+    asc = convert_string_to_boolean(asc)
     user_courses_df = pd.read_sql_table('user_courses', ENGINE_STRING)
     user_courses_df = user_courses_df.where(user_courses_df['status_value'] != 'taught')
     grouped_user_courses_df = user_courses_df[['course_id', 'id']].groupby('course_id').size().reset_index(
@@ -285,9 +302,9 @@ def popular_user_courses(popular, number_of_courses=10):
     return final_values
 
 
-def popular_skills(popular, most_popular_skills=10):
+def popular_skills(asc, most_popular_skills):
     """This function is used to find the most popular skills"""
-    asc = asc_desc_popularity_ordering(popular)
+    asc = convert_string_to_boolean(asc)
     job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
     grouped_job_skills_df = job_skills_df[['skill_id', 'id']].groupby('skill_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(most_popular_skills)
@@ -298,9 +315,9 @@ def popular_skills(popular, most_popular_skills=10):
     return final_values
 
 
-def popular_courses(popular, number_of_courses=10):
+def popular_courses(asc, number_of_courses):
     """This function is used to find the most popular courses according to job market"""
-    asc = asc_desc_popularity_ordering(popular)
+    asc = convert_string_to_boolean(asc)
     job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
     grouped_job_skills_df = job_skills_df[['skill_id', 'id']].groupby('skill_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(number_of_courses)
@@ -320,40 +337,35 @@ def popular_courses(popular, number_of_courses=10):
     return final_values
 
 
-def asc_desc_popularity_ordering(popular):
-    if popular == 'most':
-        asc = True
-    else:
-        asc = False
-    return asc
 
+#TODO: Move this API to the correct module if it is useful
 
-def api_most_popular_courses(number_of_courses=100, most_popular_skills=10):
-    """This api is used to find courses with the most popular skills"""
-
-    job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
-    grouped_job_skills_df = job_skills_df[['skill_id', 'id']].groupby('skill_id').size().reset_index(
-        name='count').sort_values('count').tail(most_popular_skills)
-    skills_df = pd.read_sql_table('skills', ENGINE_STRING).rename(columns={'id': 'skill_id', 'name': 'skill_name'})
-    popular_skills_df = pd.merge(grouped_job_skills_df, skills_df, how='left', on='skill_id')[
-        ['skill_id', 'skill_name', 'count']]
-    skills_courses_df = pd.read_sql_table('skills_courses', ENGINE_STRING)
-    skills_courses_count = pd.merge(popular_skills_df, skills_courses_df, how='left', on='skill_id')[
-        ['course_id', 'skill_name', 'count']].sort_values('count').tail(number_of_courses)
-    courses_df = pd.read_sql_table('courses', ENGINE_STRING).rename(columns={'id': 'course_id', 'name': 'course_name'})
-    popular_courses = pd.merge(skills_courses_count, courses_df, how='left', on='course_id')[
-        ['course_name', 'skill_name', 'count']].sort_values('course_name')
-    final_values = []
-    course_name = ''
-    new_dict = {}
-    for index, row in popular_courses.iterrows():
-        if course_name == '' or course_name != row['course_name']:
-            if course_name != '':
-                final_values.append(new_dict)
-            course_name = row['course_name']
-            new_dict['course'] = course_name
-            new_dict[row['skill_name']] = row['count']
-        else:
-            new_dict[row['skill_name']] = row['count']
-
-    return final_values
+# def api_most_popular_courses(number_of_courses=100, most_popular_skills=10):
+#     """This api is used to find courses with the most popular skills"""
+#
+#     job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
+#     grouped_job_skills_df = job_skills_df[['skill_id', 'id']].groupby('skill_id').size().reset_index(
+#         name='count').sort_values('count').tail(most_popular_skills)
+#     skills_df = pd.read_sql_table('skills', ENGINE_STRING).rename(columns={'id': 'skill_id', 'name': 'skill_name'})
+#     popular_skills_df = pd.merge(grouped_job_skills_df, skills_df, how='left', on='skill_id')[
+#         ['skill_id', 'skill_name', 'count']]
+#     skills_courses_df = pd.read_sql_table('skills_courses', ENGINE_STRING)
+#     skills_courses_count = pd.merge(popular_skills_df, skills_courses_df, how='left', on='skill_id')[
+#         ['course_id', 'skill_name', 'count']].sort_values('count').tail(number_of_courses)
+#     courses_df = pd.read_sql_table('courses', ENGINE_STRING).rename(columns={'id': 'course_id', 'name': 'course_name'})
+#     popular_courses = pd.merge(skills_courses_count, courses_df, how='left', on='course_id')[
+#         ['course_name', 'skill_name', 'count']].sort_values('course_name')
+#     final_values = []
+#     course_name = ''
+#     new_dict = {}
+#     for index, row in popular_courses.iterrows():
+#         if course_name == '' or course_name != row['course_name']:
+#             if course_name != '':
+#                 final_values.append(new_dict)
+#             course_name = row['course_name']
+#             new_dict['course'] = course_name
+#             new_dict[row['skill_name']] = row['count']
+#         else:
+#             new_dict[row['skill_name']] = row['count']
+#
+#     return final_values
