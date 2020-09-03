@@ -247,7 +247,7 @@ def build_bar_chart(x_axis_name, request, **kwargs):
         agg = request.GET.get('agg', 'mean')
 
         if y_column and y_var_names:
-            bar_chart_input = salary_information(data=y_var_names,y_column=y_column, aggregation=agg)
+            bar_chart_input = salary_information(data=y_var_names, y_column=y_column, aggregation=agg)
             print(bar_chart_input)
         else:
             bar_chart_input = salary_information(aggregation=agg)
