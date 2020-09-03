@@ -41,27 +41,45 @@
             categoryAxis.title.marginTop = 10;
             categoryAxis.title.marginBottom = 20;
 
-            for (var j = 0; j < y_var_names.length; j++) {
-                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-                valueAxis.title.fontWeight = 600 ;
-                valueAxis.renderer.labels.template.adapter.add("text", function (text) {
-                    return text ;
-                });
-                valueAxis.title.text = y_var_titles[j] + " (" + y_var_units[j] + ")";
-                valueAxis.title.fontWeight = 600;
-            }
 
         // Create series
-
+            var series=[];
             // Create series
-            var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
+                var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                if (chart.yAxes.indexOf(valueAxis) != 0) {
+                    valueAxis.syncWithAxis = chart.yAxes.getIndex(0);
+                }
                 if (use_default_colors) {
                     series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), y_var_titles[i],
-                        y_var_units[i], y_axis_title, x_axis_name, chart_3d);
+                        y_var_units[i], y_axis_title, x_axis_name, chart_3d, valueAxis);
+                    valueAxis.renderer.line.stroke = chart.colors.getIndex(i);
+                    valueAxis.renderer.labels.template.fill = chart.colors.getIndex(i);
+                    valueAxis.title.fill = chart.colors.getIndex(i);
                 } else {
                     series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], y_var_titles[i],
-                        y_var_units[i], y_axis_title, x_axis_name, chart_3d);
+                        y_var_units[i], y_axis_title, x_axis_name, chart_3d, valueAxis);
+                    valueAxis.renderer.line.stroke = color_list[i];
+                    valueAxis.renderer.labels.template.fill = color_list[i];
+                    valueAxis.title.fill = color_list[i];
+                }
+
+
+                valueAxis.title.fontWeight = 600;
+                valueAxis.renderer.labels.template.adapter.add("text", function (text) {
+                    return text;
+                });
+                valueAxis.title.text = y_var_titles[i] + " (" + y_var_units[i] + ")";
+                valueAxis.title.fontWeight = 600;
+                if ((i%2) === 0){
+                    valueAxis.renderer.opposite = false;
+                }else{
+                    valueAxis.renderer.opposite = true;
+                    valueAxis.renderer.dx = 30;
+                    valueAxis.title.dx = 30;
+
+
+
                 }
 
             }
@@ -84,7 +102,7 @@
             {#chart.scrollbarX.renderer.labels.template.disabled = true;#}
 
             function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title,
-                                   x_axis_name, chart_3d) {
+                                   x_axis_name, chart_3d, y_axis_object) {
                 <!-- Set the range  between open and close and set and the close-->
                 if (chart_3d) {
                     var series = chart.series.push(new am4charts.ColumnSeries3D());
@@ -113,7 +131,7 @@
                 series.tooltip.getFillFromObject = false;
                 series.tooltip.background.fill = am4core.color(fillColor).lighten(-0.3);
 
-                {#series.yAxis = valueAxis;#}
+                series.yAxis = y_axis_object;
 
                 //legend shows value dynamically
                 series.legendSettings.labelText = "{name}";
