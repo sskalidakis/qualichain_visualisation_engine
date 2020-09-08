@@ -251,6 +251,12 @@ def build_bar_chart(x_axis_name, request, **kwargs):
             print(bar_chart_input)
         else:
             bar_chart_input = salary_information(aggregation=agg)
+    elif base_query == 'skill_demand_per_column':
+        limit_results = int(request.GET.get("limit_results", 10))
+        asc_ordering = request.GET.get("asc", "False")
+        y_var_names = request.GET.getlist("y_var_names[]", [])
+        column = request.GET.get("x_axis_name", "specialization")
+        bar_chart_input = skill_demand_per_column(asc_ordering, y_var_names, limit_results, column)
     return bar_chart_input
 
 
@@ -267,6 +273,48 @@ def build_pie_chart(category_name, request, **kwargs):
     elif base_query == 'group_course_professor':
         bar_chart_input = group_courses_users(999, 'True')
     return bar_chart_input
+
+
+def skill_demand_per_column(asc, skill_names, limit, column):
+    """This function is used to find the demand of a cv's skillset in different specialisations"""
+
+    asc = convert_string_to_boolean(asc)
+    job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
+    jobs_df = pd.read_sql_table('jobs', ENGINE_STRING).rename(columns={'id': 'job_id'})
+    final_values = {}
+    column_values = []
+    results = []
+    skills_df = pd.read_sql_table('skills', ENGINE_STRING)
+    skills_df = pd.read_sql_table('skills', ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(columns={'id': 'skill_id', 'name': 'skill_title'})[
+        ['skill_id', 'skill_title']]
+    skill_ids = skills_df[['skill_id', 'skill_title']].set_index(
+        'skill_id').to_dict(orient='index')
+
+    if len(skill_ids) != 0:
+        print(skill_ids)
+        for skill_key, skill_obj in skill_ids.items():
+            sel_job_skills_df = job_skills_df[(job_skills_df['skill_id'] == int(skill_key))]
+            skill_demand_df = pd.merge(sel_job_skills_df, jobs_df, how='left', on='job_id')[['job_id', column]]
+            demand_per_column = skill_demand_df.groupby([column])['job_id'].size().reset_index(
+                name='count').sort_values('count', ascending=asc).tail(limit)
+            for el in demand_per_column[column].values.tolist():
+                if el not in column_values:
+                    column_values.append(el)
+            part_final_values = list(demand_per_column.to_dict('index').values())
+            final_values[skill_key] = part_final_values
+        for col_val in column_values:
+            dict = {}
+            dict[column] = col_val
+            for key, value in final_values.items():
+                for el in value:
+                    if el[column] == col_val:
+                        dict[skill_ids[key]['skill_title']] = el['count']
+                        break
+            results.append(dict)
+
+        return results
+    else:
+        return []
 
 
 def group_courses_users(limit, asc):
@@ -346,9 +394,7 @@ def popular_courses(asc, number_of_courses):
     print(final_values)
     return final_values
 
-
-
-#TODO: Move this API to the correct module if it is useful
+# TODO: Move this API to the correct module if it is useful
 
 # def api_most_popular_courses(number_of_courses=100, most_popular_skills=10):
 #     """This api is used to find courses with the most popular skills"""
