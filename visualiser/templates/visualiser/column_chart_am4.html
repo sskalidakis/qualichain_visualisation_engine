@@ -97,7 +97,7 @@
 
                 }
 
-                series.columns.template.tooltipText = y_axis_title + ": {categoryX}- " + myVarTitle + " : [bold]{valueY}[/]";
+                series.columns.template.tooltipText = "{categoryX}- " + myVarTitle + " : [bold]{valueY}[/] " + y_var_units;
 
                 series.dataFields.valueY = myVar;
                 series.dataFields.categoryX = x_axis_name;
