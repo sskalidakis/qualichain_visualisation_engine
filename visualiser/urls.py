@@ -17,4 +17,6 @@ urlpatterns = [
     path('show_sankey_diagram', views.sankey_diagram, name='sankey_diagram'),
     path('show_chord_diagram', views.chord_diagram, name='chord_diagram'),
     path('show_heat_map', views.heat_map_on_map, name='heat_map'),
+    path('show_cylinder_gauge_chart', views.show_cylinder_gauge_chart, name='show_cylinder_gauge_chart'),
+    path('show_circular_gauge_chart', views.show_circular_gauge_chart, name='show_circular_gauge_chart'),
 ]

@@ -11,7 +11,7 @@ from data_manager.manager import create_heatmap_data, group_users_per_column, bu
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, CL_COLUMNCHART_DATA
+    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, CL_COLUMNCHART_DATA, GAUGE_DATA
 
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
@@ -173,6 +173,55 @@ class XY_chart:
                           self.content)
 
 
+class X_chart:
+    def __init__(self, request, x_axis_name, x_axis_title, x_axis_unit, chart_data, color_list, use_default_colors,
+                 chart_3d, minmax_y_value, chart_type):
+        """
+        :param request: Contains all request data needed to render the HTML page. (Request Object)
+        :param x_axis_name: The unique name of the selected variable of the X-Axis as used in the code (String)
+        :param x_axis_title: The title of the variable of the X-Axis as displayed in the user interfaces (String)
+        :param x_axis_unit: The unit of the selected variable of the X-Axis (String)
+        :param chart_data: A JSON object in the appropriate format  that contains the data that will displayed. (JSON Object)
+        :param color_list: Colour (for cylinder gauge) or a colour couple (for circular_gauge). (List of Strings)
+                Colours: “light_blue, blue, violet, purple, fuchsia, red, ceramic, light_brown, mustard, gold,
+                light_green, green, cyan, black, gray, white”
+                Colour couples: "blue_red, green_red, beige_purple, purple_orange, cyan_green, yellow_gold, skin_red,
+                grey_darkblue, lightblue_green"
+        :param use_default_colors: If “true”, the default colours are used for the chosen chart (String: "true" or "false")
+        :param chart_3d: If “true”, the chart is displayed in three dimensions. (not all visualisations support 3D) (String: "true" or "false")
+        :param minmax_y_value: A two-element list that contains the min and max value of the variables on the Y-Axis. (List of Numbers)
+        :param chart_type: The type of the chart. Options : line_chart, column_chart, range_chart, bar_range_chart,
+                stacked_column_chart, column_heatmap_chart, pie_chart, radar_chart
+        """
+        self.x_axis_name = x_axis_name
+        self.x_axis_title = x_axis_title
+        self.x_axis_unit = x_axis_unit
+        self.chart_data = chart_data
+        self.request = request
+        self.chart_type = chart_type
+        self.color_list = color_list
+        self.use_default_colors = use_default_colors
+        self.chart_3d = chart_3d
+        self.minmax_y_value = minmax_y_value
+        print(minmax_y_value)
+        self.content = {'x_axis_title': self.x_axis_title, 'x_axis_unit': self.x_axis_unit,
+                        'x_axis_name': self.x_axis_name, 'color_list': self.color_list,
+                        'use_default_colors': self.use_default_colors, 'chart_3d': self.chart_3d,
+                        'min_max_y_value': self.minmax_y_value, 'chart_data': self.chart_data}
+
+    def show_chart(self):
+        """
+        :return: Returns visualisation HTML.
+        """
+        if self.chart_type == 'circular_gauge_chart':
+            return render(self.request, 'visualiser/circular_gauge_chart.html',
+                          self.content)
+        elif self.chart_type == 'cylinder_gauge_chart':
+            return render(self.request, 'visualiser/cylinder_gauge_chart.html',
+                          self.content)
+
+
+
 class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
@@ -257,7 +306,7 @@ def get_response_data_XY(request):
             "y_axis_title": request.GET.get("y_axis_title", ""),
             "color_list_request": request.GET.getlist("color_list_request[]", []),
             "use_default_colors": request.GET.get("use_default_colors", "true"),
-            "chart_3d": request.GET.get("chart_3d", ""),
+            "chart_3d": request.GET.get("chart_3d", "false"),
             "min_max_y_value": request.GET.getlist("min_max_y_value[]", []),
             "dataset": request.GET.get("dataset", ""),
             "dataset_type": request.GET.get("dataset_type", "file"),
@@ -266,6 +315,52 @@ def get_response_data_XY(request):
     else:
         json_response = json.loads(request.body.decode('utf-8'))
     return json_response
+
+
+@csrf_exempt
+def show_circular_gauge_chart(request):
+    response_data = get_response_data_XY(request)
+    print(response_data)
+    x_axis_name = response_data['x_axis_name']
+    x_axis_title = response_data['x_axis_title']
+    x_axis_unit = response_data['x_axis_unit']
+    color_list_request = response_data['color_list_request']
+    use_default_colors = response_data['use_default_colors']
+    chart_3d = ""
+    min_max_y_value = response_data['min_max_y_value']
+    dataset = response_data['dataset']
+
+    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+    data = 70
+
+    color_list = define_color_code_list(color_list_request)
+
+    circular_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list, use_default_colors,
+                         chart_3d, min_max_y_value, 'circular_gauge_chart')
+    return circular_gauge_chart.show_chart()
+
+
+@csrf_exempt
+def show_cylinder_gauge_chart(request):
+    response_data = get_response_data_XY(request)
+    print(response_data)
+    x_axis_name = response_data['x_axis_name']
+    x_axis_title = response_data['x_axis_title']
+    x_axis_unit = response_data['x_axis_unit']
+    color_list_request = response_data['color_list_request']
+    use_default_colors = response_data['use_default_colors']
+    min_max_y_value = response_data['min_max_y_value']
+    chart_3d = "false"
+    dataset = response_data['dataset']
+
+    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+    data = GAUGE_DATA
+
+    color_list = define_color_code_list(color_list_request)
+
+    cylinder_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list, use_default_colors,
+                         chart_3d, min_max_y_value, 'cylinder_gauge_chart')
+    return cylinder_gauge_chart.show_chart()
 
 
 @csrf_exempt
@@ -591,40 +686,40 @@ def chord_diagram(request):
     chord_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
-
-@csrf_exempt
-def get_response_parallel_coordinates_chart(request):
-    if request.method == "GET":
-        json_response = {
-            "y_axes": request.GET.getlist("y_axes[]", []),
-            "title": request.GET.get("title", ""),
-            "about_title": request.GET.get("title", ""),
-            "about_text": request.GET.get("text", ""),
-            "groups_title": request.GET.get("groups_title", ""),
-            "samples_size": request.GET.get("samples_size", "10"),
-
-        }
-    else:
-        json_response = json.loads(request.body)
-        print(json_response)
-    return json_response
-
-
-def parallel_coordinates_chart(request):
-    """
-    y_axes the name of columns
-    data a list of lists, each list must have the same length of y_axes
-    slice_size define how much rows be visualid, in table below graph
-
-    :param request:
-    :return:
-    """
-    response_parallel_coordinates_chart = get_response_parallel_coordinates_chart(request)
-    y_axes = response_parallel_coordinates_chart["y_axes"]
-    slice_size = response_parallel_coordinates_chart["samples_size"]
-    data = PARALLEL_COORDINATES_DATA
-    return render(request, 'visualiser/parallel_coordinates_chart.html',
-                  {"y_axes": y_axes, "data": data, "slice_size": slice_size})
+#
+# @csrf_exempt
+# def get_response_parallel_coordinates_chart(request):
+#     if request.method == "GET":
+#         json_response = {
+#             "y_axes": request.GET.getlist("y_axes[]", []),
+#             "title": request.GET.get("title", ""),
+#             "about_title": request.GET.get("title", ""),
+#             "about_text": request.GET.get("text", ""),
+#             "groups_title": request.GET.get("groups_title", ""),
+#             "samples_size": request.GET.get("samples_size", "10"),
+#
+#         }
+#     else:
+#         json_response = json.loads(request.body)
+#         print(json_response)
+#     return json_response
+#
+#
+# def parallel_coordinates_chart(request):
+#     """
+#     y_axes the name of columns
+#     data a list of lists, each list must have the same length of y_axes
+#     slice_size define how much rows be visualid, in table below graph
+#
+#     :param request:
+#     :return:
+#     """
+#     response_parallel_coordinates_chart = get_response_parallel_coordinates_chart(request)
+#     y_axes = response_parallel_coordinates_chart["y_axes"]
+#     slice_size = response_parallel_coordinates_chart["samples_size"]
+#     data = PARALLEL_COORDINATES_DATA
+#     return render(request, 'visualiser/parallel_coordinates_chart.html',
+#                   {"y_axes": y_axes, "data": data, "slice_size": slice_size})
 
 
 @csrf_exempt
@@ -659,52 +754,52 @@ def heat_map_on_map(request):
     return heatmap_on_map.show_chart()
 
 
-def thermometer_chart(request):
-    recordData = {}
-    for i in range(1, 11):
-        temp = []
-        for j in THERMOMETER:
-            t = {"date": j["date"], "value": j["value"] * i}
-            temp.append(t)
-        recordData[i] = temp
-    response_thermometer_chart = get_response_data_XY(request)
-    min_max_temp = response_thermometer_chart["min_max_y_value"]
-    min_temp = min_max_temp[0]
-    max_temp = min_max_temp[1]
-    return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
-                                                                 "min_temp": min_temp, "max_temp": max_temp})
-
-
-def parallel_coordinates_chart2(request):
-    """
-    :param request:
-    :return:
-    """
-    response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart(request)
-    y_axes = response_parallel_coordinates_chart2["y_axes"]
-    title = response_parallel_coordinates_chart2["title"]
-    about_title = response_parallel_coordinates_chart2["about_title"]
-    about_text = response_parallel_coordinates_chart2["about_text"]
-    groups_title = response_parallel_coordinates_chart2["groups_title"]
-    sample_size = response_parallel_coordinates_chart2["samples_size"]
-    # data = PARALLEL_COORDINATES_DATA_2
-    data = generate_data_for_parallel_coordinates_chart2()
-    samples_title = "Sample of %s entries" % sample_size
-    # Create the variable colored_groups
-    # First get the unique groups of give data
-    groups_list = list(set(map(lambda x: x[1], data)))
-    colored_groups = {}
-    for k, group in enumerate(groups_list):
-        colored_groups[group] = D3_PARALLEL_COORDINATES_COLORS[k]
-    # Greate a dict with keys the name of groups and value a list which represent the HSL color
-    return render(request, 'visualiser/parallel_coordinates_chart2.html', {
-        "data": data,
-        "y_axes": y_axes,
-        "title": title,
-        "about": about_title,
-        "about_text": about_text,
-        "groups": groups_title,
-        "samples": samples_title,
-        "samples_size": sample_size,
-        "colored_groups": colored_groups
-    })
+# def thermometer_chart(request):
+#     recordData = {}
+#     for i in range(1, 11):
+#         temp = []
+#         for j in THERMOMETER:
+#             t = {"date": j["date"], "value": j["value"] * i}
+#             temp.append(t)
+#         recordData[i] = temp
+#     response_thermometer_chart = get_response_data_XY(request)
+#     min_max_temp = response_thermometer_chart["min_max_y_value"]
+#     min_temp = min_max_temp[0]
+#     max_temp = min_max_temp[1]
+#     return render(request, 'visualiser/thermometer_chart.html', {"data": THERMOMETER, "recordData": recordData,
+#                                                                  "min_temp": min_temp, "max_temp": max_temp})
+#
+#
+# def parallel_coordinates_chart2(request):
+#     """
+#     :param request:
+#     :return:
+#     """
+#     response_parallel_coordinates_chart2 = get_response_parallel_coordinates_chart(request)
+#     y_axes = response_parallel_coordinates_chart2["y_axes"]
+#     title = response_parallel_coordinates_chart2["title"]
+#     about_title = response_parallel_coordinates_chart2["about_title"]
+#     about_text = response_parallel_coordinates_chart2["about_text"]
+#     groups_title = response_parallel_coordinates_chart2["groups_title"]
+#     sample_size = response_parallel_coordinates_chart2["samples_size"]
+#     # data = PARALLEL_COORDINATES_DATA_2
+#     data = generate_data_for_parallel_coordinates_chart2()
+#     samples_title = "Sample of %s entries" % sample_size
+#     # Create the variable colored_groups
+#     # First get the unique groups of give data
+#     groups_list = list(set(map(lambda x: x[1], data)))
+#     colored_groups = {}
+#     for k, group in enumerate(groups_list):
+#         colored_groups[group] = D3_PARALLEL_COORDINATES_COLORS[k]
+#     # Greate a dict with keys the name of groups and value a list which represent the HSL color
+#     return render(request, 'visualiser/parallel_coordinates_chart2.html', {
+#         "data": data,
+#         "y_axes": y_axes,
+#         "title": title,
+#         "about": about_title,
+#         "about_text": about_text,
+#         "groups": groups_title,
+#         "samples": samples_title,
+#         "samples_size": sample_size,
+#         "colored_groups": colored_groups
+#     })

@@ -1,3 +1,11 @@
+CYLINDER GAUGE CHART
+====================
+http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&use_default_colors=true&min_max_y_value[]=0&min_max_y_value[]=200
+
+CIRCULAR_GAUGE_CHART
+=====================
+http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=200
+
 LINE CHART TIME SERIES
 -----------------------
 -GET REQUEST:

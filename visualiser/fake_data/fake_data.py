@@ -70,6 +70,12 @@ FAKE_DATA =[{"close_0": 296.0, "time_0": 1577743200000, "myVar1": 269.5, "open_0
  ]
 
 
+GAUGE_DATA =[{
+    "category": "Power",
+    "value_on": 130,
+    "value_off": 70
+}];
+
 COLUMNCHART_DATA = [{
  "country": "USA",
  "year2017": 3.5,
