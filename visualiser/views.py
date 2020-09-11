@@ -7,7 +7,7 @@ from django.apps import apps
 from django.http import HttpResponse
 
 from data_manager.manager import create_heatmap_data, group_users_per_column, build_bar_chart, user_jobs_groups, \
-    build_pie_chart, build_circular_gauge
+    build_pie_chart, build_circular_gauge, skill_demand_in_time, build_line_chart
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -381,7 +381,8 @@ def show_line_chart(request):
     dataset = response_data['dataset']
 
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = FAKE_DATA
+    # data = FAKE_DATA
+    data = build_line_chart(request)
 
     color_list = define_color_code_list(color_list_request)
 

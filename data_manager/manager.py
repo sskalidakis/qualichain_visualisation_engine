@@ -1,3 +1,6 @@
+import datetime
+import time
+
 from django.shortcuts import render
 from django.apps import apps
 import logging
@@ -240,6 +243,34 @@ def covered_skills_from_user(user_id, job_id):
         overlap_percentage = 0
     return overlap_percentage
 
+
+def skill_demand_in_time(skill_id, specialization):
+    """This function is used to find skill demand in a specific specialization during time"""
+    sql_command = """
+    SELECT job_skill.skill_id, jobs.specialization, jobs.date
+    FROM 
+    (SELECT * from job_skills WHERE skill_id={skill_id}) as job_skill
+    JOIN jobs
+    ON job_skill.job_id=jobs.id
+    WHERE specialization='{specialization}'
+    """.format(**{'skill_id': skill_id, 'specialization': specialization})
+    skills_jobs_data = get_table(sql_command=sql_command)
+    grouped_dates = skills_jobs_data.groupby('date').count().reset_index().rename(
+        columns={'date': 'time_0', 'skill_id': 'myVar1'})
+    grouped_dates['time_0'] = grouped_dates['time_0'].apply(
+        lambda row: int(time.mktime(datetime.datetime.strptime(row, "%Y-%m-%d").timetuple())))
+    return list(grouped_dates.to_dict('index').values())
+
+
+def build_line_chart(request, **kwargs):
+    """This function is used to build line charts"""
+    base_query = request.GET.get('base_query', None)
+    if base_query == 'skill_demand_in_time':
+        skill_id = request.GET.get('skill_id', None)
+        specialization = request.GET.get('specialization', None)
+        if skill_id and specialization:
+            values = skill_demand_in_time(skill_id=skill_id, specialization=specialization)
+    return values
 
 def build_circular_gauge(request, **kwargs):
     """This function is used as an abstract builder for Circular gauge"""
