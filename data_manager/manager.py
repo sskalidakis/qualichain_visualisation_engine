@@ -213,6 +213,47 @@ def salary_information(aggregation, y_column=None, data=None):
     return values
 
 
+def retrieve_user_skills(user_id):
+    """This function is used to retrieve user skills"""
+    skills_sql_command = """
+        SELECT user_id, skill_id FROM
+        (SELECT * FROM "CVs" WHERE user_id={user_id}) user_cv
+        JOIN cv_skills ON user_cv.id=cv_skills.cv_id
+        """.format(**{'user_id': user_id})
+    skills_data = get_table(sql_command=skills_sql_command)
+    user_skills_list = list(skills_data.skill_id)
+    return user_skills_list
+
+
+def covered_skills_from_user(user_id, job_id):
+    """This function is used find user's coverage percentage for a specific job"""
+    users_skills_list = retrieve_user_skills(user_id)
+    jobs_skills_sql_command = "SELECT skill_id FROM job_skills WHERE job_id={job_id}".format(
+        **{'job_id': job_id}
+    )
+    job_skills_df = get_table(sql_command=jobs_skills_sql_command)
+    job_skills_list = list(job_skills_df.skill_id)
+    common_skills = list(set(users_skills_list).intersection(job_skills_list))
+    if common_skills:
+        overlap_percentage = len(common_skills) / len(job_skills_list) * 100
+    else:
+        overlap_percentage = 0
+    return overlap_percentage
+
+
+def build_circular_gauge(request, **kwargs):
+    """This function is used as an abstract builder for Circular gauge"""
+    base_query = request.GET.get('base_query', None)
+    if base_query == 'skills_coverage':
+
+        user_id = request.GET.get('user_id', None)
+        job_id = request.GET.get('job_id', None)
+        if user_id and job_id:
+            values = covered_skills_from_user(user_id, job_id)
+            print(values)
+            return values
+
+
 def build_bar_chart(x_axis_name, request, **kwargs):
     """This abstract function is used to call submethods/specific model"""
     base_query = request.GET.get("base_query", None)
@@ -287,7 +328,8 @@ def skill_demand_per_column(asc, skill_names, limit, column):
     column_values = []
     results = []
     skills_df = pd.read_sql_table('skills', ENGINE_STRING)
-    skills_df = pd.read_sql_table('skills', ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(columns={'id': 'skill_id', 'name': 'skill_title'})[
+    skills_df = pd.read_sql_table('skills', ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(
+        columns={'id': 'skill_id', 'name': 'skill_title'})[
         ['skill_id', 'skill_title']]
     skill_ids = skills_df[['skill_id', 'skill_title']].set_index(
         'skill_id').to_dict(orient='index')

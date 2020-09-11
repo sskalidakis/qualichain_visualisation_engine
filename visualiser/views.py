@@ -7,7 +7,7 @@ from django.apps import apps
 from django.http import HttpResponse
 
 from data_manager.manager import create_heatmap_data, group_users_per_column, build_bar_chart, user_jobs_groups, \
-    build_pie_chart
+    build_pie_chart, build_circular_gauge
 from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
     HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
     RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
@@ -329,9 +329,8 @@ def show_circular_gauge_chart(request):
     chart_3d = ""
     min_max_y_value = response_data['min_max_y_value']
     dataset = response_data['dataset']
-
     # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = 70
+    data = build_circular_gauge(request)
 
     color_list = define_color_code_list(color_list_request)
 
