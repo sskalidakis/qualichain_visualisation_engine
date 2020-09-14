@@ -1,27 +1,15 @@
-from json import JSONDecodeError
 import logging
 import sys
 from django.shortcuts import render
-from django.apps import apps
 
-from django.http import HttpResponse
+from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart
+from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
+    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA
 
-from data_manager.manager import create_heatmap_data, group_users_per_column, build_bar_chart, user_jobs_groups, \
-    build_pie_chart, build_circular_gauge, skill_demand_in_time, build_line_chart
-from visualiser.fake_data.fake_data import FAKE_DATA, COLUMNCHART_DATA, BAR_RANGE_CHART_DATA, BAR_HEATMAP_DATA, \
-    HEAT_MAP_DATA, SANKEYCHORD_DATA, THERMOMETER, HEAT_MAP_CHART_DATA, PARALLEL_COORDINATES_DATA, PIE_CHART_DATA, \
-    RADAR_CHART_DATA, PARALLEL_COORDINATES_DATA_2, BAR_HEATMAP_DATA_2, BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, \
-    HEAT_MAP_CHART_DATA2, HEAT_MAP_DATA_FOR_MAP, CL_COLUMNCHART_DATA, GAUGE_DATA
-
-from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 
 from visualiser.utils import *
-from django.views.decorators.csrf import csrf_protect
-from django.utils.decorators import method_decorator
 import json
-
-from visualiser.visualiser_settings import DATA_TABLES_APP
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -221,7 +209,6 @@ class X_chart:
                           self.content)
 
 
-
 class FlowChart:
     """
     Sankey chart and Chord diagram have the same format of data
@@ -334,8 +321,9 @@ def show_circular_gauge_chart(request):
 
     color_list = define_color_code_list(color_list_request)
 
-    circular_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list, use_default_colors,
-                         chart_3d, min_max_y_value, 'circular_gauge_chart')
+    circular_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list,
+                                   use_default_colors,
+                                   chart_3d, min_max_y_value, 'circular_gauge_chart')
     return circular_gauge_chart.show_chart()
 
 
@@ -357,8 +345,9 @@ def show_cylinder_gauge_chart(request):
 
     color_list = define_color_code_list(color_list_request)
 
-    cylinder_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list, use_default_colors,
-                         chart_3d, min_max_y_value, 'cylinder_gauge_chart')
+    cylinder_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list,
+                                   use_default_colors,
+                                   chart_3d, min_max_y_value, 'cylinder_gauge_chart')
     return cylinder_gauge_chart.show_chart()
 
 
@@ -686,6 +675,7 @@ def chord_diagram(request):
     chord_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'chord_diagram')
     return chord_diagram.show_chart()
 
+
 #
 # @csrf_exempt
 # def get_response_parallel_coordinates_chart(request):
@@ -752,7 +742,6 @@ def heat_map_on_map(request):
     heatmap_on_map = MapChart(request, map_data, projection, color_couple, map_var_name, map_var_title, map_var_unit,
                               min_max_value, 'heatmap_on_map')
     return heatmap_on_map.show_chart()
-
 
 # def thermometer_chart(request):
 #     recordData = {}
