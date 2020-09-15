@@ -43,6 +43,8 @@ def covered_cv_skills_from_course(user_id, course_id):
         else:
             overlap_percentage = 0
         return overlap_percentage
+    else:
+        return 0
 
 
 def covered_application_skills_from_course(user_id, course_id):
@@ -67,3 +69,24 @@ def covered_application_skills_from_course(user_id, course_id):
         else:
             overlap_percentage = 0
         return overlap_percentage
+    else:
+        return 0
+
+
+
+def skill_relation_with_user_applications(user_id, skill_id):
+    """This function is used find the relation of a skill to the user's interests (job applications)"""
+    user_apps_df = pd.read_sql_table('user_applications', ENGINE_STRING)
+    job_ids = user_apps_df.loc[user_apps_df['user_id'] == int(user_id)].job_id.to_list()
+    if len(job_ids) > 0:
+        job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
+        common_count = 0
+        for job_id in job_ids:
+            job_skills = job_skills_df[job_skills_df['job_id'] == job_id][['skill_id']]['skill_id'].to_list()
+            if int(skill_id) in job_skills:
+                common_count = common_count + 1
+
+        overlap_percentage = common_count / len(job_ids) * 100
+        return overlap_percentage
+    else:
+        return 0

@@ -4,7 +4,7 @@ import sys
 from data_manager.groups_per_column import group_users_per_column, user_jobs_groups, salary_information, \
     skill_demand_per_column, group_jobs_per_column
 from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_from_course, \
-    covered_application_skills_from_course
+    covered_application_skills_from_course, skill_relation_with_user_applications
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users
 
@@ -35,6 +35,24 @@ def build_circular_gauge(request, **kwargs):
             values = covered_skills_from_user(user_id, job_id)
             print(values)
             return values
+    elif base_query == 'course_match_cv':
+        user_id = request.GET.get('user_id', None)
+        course_id = request.GET.get('course_id', None)
+        if user_id and course_id:
+            value = covered_cv_skills_from_course(user_id, course_id)
+            return value
+    elif base_query == 'course_match_applications':
+        user_id = request.GET.get('user_id', None)
+        course_id = request.GET.get('course_id', None)
+        if user_id and course_id:
+            value = covered_application_skills_from_course(user_id, course_id)
+            return value
+    elif base_query == 'skill_match_applications':
+        user_id = request.GET.get('user_id', None)
+        skill_id = request.GET.get('skill_id', None)
+        if user_id and skill_id:
+            value = skill_relation_with_user_applications(user_id, skill_id)
+            return value
 
 
 def build_cylinder_gauge(request, **kwargs):
@@ -58,6 +76,12 @@ def build_cylinder_gauge(request, **kwargs):
         course_id = request.GET.get('course_id', None)
         if user_id and course_id:
             value = covered_application_skills_from_course(user_id, course_id)
+            return value
+    elif base_query == 'skill_match_applications':
+        user_id = request.GET.get('user_id', None)
+        skill_id = request.GET.get('skill_id', None)
+        if user_id and skill_id:
+            value = skill_relation_with_user_applications(user_id, skill_id)
             return value
 
 
