@@ -25,6 +25,14 @@ def get_job_application_stats(sql_command, column, aggregation="count"):
         return None
 
 
+def group_jobs_per_column(column):
+    """This function is used to group jobs table according to provided column"""
+    jobs_df = get_table(table='jobs')
+    group = jobs_df[[column, 'id']].groupby(column).agg('count').reset_index().rename(columns={'id': 'count'})
+    final_values = list(group.to_dict('index').values())
+    return final_values
+
+
 def user_jobs_groups(column, user_id):
     """This function is used to aggregate jobs data for a specific user"""
     job_ids = get_user_applied_jobs(user_id)

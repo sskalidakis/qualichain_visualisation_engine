@@ -2,7 +2,7 @@ import logging
 import sys
 
 from data_manager.groups_per_column import group_users_per_column, user_jobs_groups, salary_information, \
-    skill_demand_per_column
+    skill_demand_per_column, group_jobs_per_column
 from data_manager.joined_ops import covered_skills_from_user
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users
@@ -89,15 +89,20 @@ def build_pie_chart(category_name, request, **kwargs):
     """This abstract function is used to call submethods/specific model"""
     base_query = request.GET.get("base_query", None)
 
-    bar_chart_input = []
+    pie_chart_input = []
     if base_query == 'group_users':
-        bar_chart_input = group_users_per_column(category_name)
+        pie_chart_input = group_users_per_column(category_name)
     elif base_query == 'group_job_user':
         user_id = request.GET.get("user_id", None)
-        bar_chart_input = user_jobs_groups(category_name, user_id)
+        pie_chart_input = user_jobs_groups(category_name, user_id)
     elif base_query == 'group_course_professor':
-        bar_chart_input = group_courses_users(999, 'True')
-    return bar_chart_input
+        limit_professors = int(request.GET.get("limit_professors", 10))
+        asc_ordering = request.GET.get("asc", "False")
+        pie_chart_input = group_courses_users(limit_professors, asc_ordering)
+    elif base_query == 'group_jobs':
+        column = request.GET.get("x_axis_name", "specialization")
+        pie_chart_input = group_jobs_per_column(column)
+    return pie_chart_input
 
 # TODO: Move this API to the correct module if it is useful
 
