@@ -19,8 +19,9 @@ def build_line_chart(request, **kwargs):
         skill_id = request.GET.get('skill_id', None)
         specialization = request.GET.get('specialization', None)
         if skill_id and specialization:
+            print("i am here")
             values = skill_demand_in_time(skill_id=skill_id, specialization=specialization)
-    return values
+            return values
 
 
 def build_circular_gauge(request, **kwargs):

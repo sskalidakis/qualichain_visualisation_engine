@@ -1,9 +1,7 @@
-import datetime
-import time
 import pandas as pd
 
 from data_manager.settings import ENGINE_STRING
-from data_manager.utils import get_table
+from data_manager.utils import get_table, date_to_unix
 from visualiser.utils import convert_string_to_boolean
 
 
@@ -42,10 +40,11 @@ def skill_demand_in_time(skill_id, specialization):
     """.format(**{'skill_id': skill_id, 'specialization': specialization})
     skills_jobs_data = get_table(sql_command=sql_command)
     grouped_dates = skills_jobs_data.groupby('date').count().reset_index().rename(
-        columns={'date': 'time_0', 'skill_id': 'myVar1'})
+        columns={'date': 'time_0', 'skill_id': 'skill_demand'})
     grouped_dates['time_0'] = grouped_dates['time_0'].apply(
-        lambda row: int(time.mktime(datetime.datetime.strptime(row, "%Y-%m-%d").timetuple())))
-    return list(grouped_dates.to_dict('index').values())
+        lambda row: date_to_unix(row))
+    values = list(grouped_dates.to_dict('index').values())
+    return values
 
 
 def group_courses_users(limit, asc):
@@ -59,5 +58,4 @@ def group_courses_users(limit, asc):
     professors_courses = pd.merge(grouped_professor_courses_df, users_df, how='left', on='user_id')[
         ['user_name', 'count']].sort_values('count', ascending=asc)
     final_values = list(professors_courses.to_dict('index').values())
-    print(final_values)
     return final_values
