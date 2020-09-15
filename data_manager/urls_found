@@ -19,6 +19,19 @@ http://localhost:8000/visualiser/show_column_chart?y_var_names[]=id&y_var_titles
 (pie_chart)
 http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=Number%20of%20Users&y_var_units[]=users&x_axis_type=text&x_axis_name=role_value&x_axis_title=Role&y_axis_title=Count&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&color_list_request[]=yellow&chart_3d=true&use_default_colors=false&base_query=group_usersbase_query=group_users
 
+
+COURSE - Matching
+------------
+With CV (Cylinder gauge)
+http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=11&course_id=32
+
+With Job Applications (Cylinder gauge)
+http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=1&course_id=32
+
+SKILL -Matching
+-----------------
+
+
 COURSES- SKILLS
 ----------------
 Most popular skills (job market)

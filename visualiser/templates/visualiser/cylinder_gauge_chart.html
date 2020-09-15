@@ -19,7 +19,7 @@
             }
 
             // Add data
-            chart.data = {{ chart_data |safe}};
+            var data = {{ chart_data }};
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var x_axis_title = "{{x_axis_title}}";
             var x_axis_name = "{{ x_axis_name }}";
@@ -27,6 +27,14 @@
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
             var min_max_list = {{ min_max_y_value|safe }};
+
+            chart.data = [{
+                "category": x_axis_title,
+                "value_on": data,
+                "value_off": min_max_list[1] - data
+            }];
+
+
 
 
 // Create axes

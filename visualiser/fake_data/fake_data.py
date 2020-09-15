@@ -69,8 +69,9 @@ FAKE_DATA =[{"close_0": 296.0, "time_0": 1577743200000, "myVar1": 269.5, "open_0
  {"close_1": 195.0, "time_1": 1580594400000, "myVar2": 306.75, "open_1": 418.5}
  ]
 
+GAUGE_DATA = 130
 
-GAUGE_DATA =[{
+GAUGE_DATA2 =[{
     "category": "Power",
     "value_on": 130,
     "value_off": 70

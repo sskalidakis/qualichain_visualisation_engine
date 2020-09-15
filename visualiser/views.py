@@ -2,7 +2,8 @@ import logging
 import sys
 from django.shortcuts import render
 
-from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart
+from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart, \
+    build_cylinder_gauge
 from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
     BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA
 
@@ -339,10 +340,8 @@ def show_cylinder_gauge_chart(request):
     min_max_y_value = response_data['min_max_y_value']
     chart_3d = "false"
     dataset = response_data['dataset']
-
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    data = GAUGE_DATA
-
+    data = build_cylinder_gauge(request)
+    # data = GAUGE_DATA
     color_list = define_color_code_list(color_list_request)
 
     cylinder_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list,
