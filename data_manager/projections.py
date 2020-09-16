@@ -1,9 +1,7 @@
-import datetime
-import time
 import pandas as pd
 
 from data_manager.settings import ENGINE_STRING
-from data_manager.utils import get_table
+from data_manager.utils import get_table, date_to_unix
 from visualiser.utils import convert_string_to_boolean
 
 
@@ -42,10 +40,11 @@ def skill_demand_in_time(skill_id, specialization):
     """.format(**{'skill_id': skill_id, 'specialization': specialization})
     skills_jobs_data = get_table(sql_command=sql_command)
     grouped_dates = skills_jobs_data.groupby('date').count().reset_index().rename(
-        columns={'date': 'time_0', 'skill_id': 'myVar1'})
+        columns={'date': 'time_0', 'skill_id': 'skill_demand'})
     grouped_dates['time_0'] = grouped_dates['time_0'].apply(
-        lambda row: int(time.mktime(datetime.datetime.strptime(row, "%Y-%m-%d").timetuple())))
-    return list(grouped_dates.to_dict('index').values())
+        lambda row: date_to_unix(row))
+    values = list(grouped_dates.to_dict('index').values())
+    return values
 
 
 def group_courses_users(limit, asc):
@@ -59,5 +58,58 @@ def group_courses_users(limit, asc):
     professors_courses = pd.merge(grouped_professor_courses_df, users_df, how='left', on='user_id')[
         ['user_name', 'count']].sort_values('count', ascending=asc)
     final_values = list(professors_courses.to_dict('index').values())
-    print(final_values)
     return final_values
+
+
+def get_user_enrolled_courses_skills(user_id):
+    """This function is used to retrieve a list of skills provided in user's enrolled courses"""
+    user_enrolled_courses_df = get_table(
+        sql_command="SELECT * FROM user_courses WHERE user_id={user_id} AND status_value='{status}'".format(
+            **{'user_id': user_id, 'status': 'enrolled'})
+    )
+    courses = user_enrolled_courses_df['course_id'].tolist()
+    if len(courses) > 1:
+        skill_courses_df = get_table(
+            sql_command="SELECT * FROM skills_courses WHERE course_id in {courses_tuple}".format(
+                **{'courses_tuple': tuple(courses)})
+        )
+    else:
+        skill_courses_df = get_table(
+            sql_command="SELECT * FROM skills_courses WHERE course_id={course_id}".format(**{'course_id': courses[0]})
+        )
+    enrolled_courses_skills = skill_courses_df['skill_id'].tolist()
+    return enrolled_courses_skills
+
+
+def get_applied_job_skills(user_id):
+    """This function is used to get the skills from jobs in which a user have applied"""
+    user_job_applications_df = get_table(
+        sql_command="SELECT * FROM user_applications WHERE user_id={user_id}".format(**{'user_id': user_id})
+    )
+    applied_jobs = user_job_applications_df['job_id'].tolist()
+    if len(applied_jobs) > 1:
+        applied_job_skills_df = get_table(
+            sql_command="SELECT * FROM job_skills WHERE job_id in {job_tuple}".format(
+                **{'job_tuple': tuple(applied_jobs)})
+        )
+    else:
+        applied_job_skills_df = get_table(
+            sql_command="SELECT * FROM job_skills WHERE job_id={job_id}".format(**{'job_id': applied_jobs[0]})
+        )
+    applied_jobs_skills = applied_job_skills_df['skill_id'].tolist()
+    return applied_jobs_skills
+
+
+def enrolled_courses_applications_coverage(user_id):
+    """
+    This function is used to find percentage coverage between user's enrolled courses and job skills that has applied
+    """
+    enrolled_courses_skills = get_user_enrolled_courses_skills(user_id)
+    applied_jobs_skills = get_applied_job_skills(user_id)
+
+    common_skills = list(set(enrolled_courses_skills).intersection(applied_jobs_skills))
+    if common_skills:
+        overlap_percentage = len(common_skills) / len(applied_jobs_skills) * 100
+    else:
+        overlap_percentage = 0
+    return overlap_percentage

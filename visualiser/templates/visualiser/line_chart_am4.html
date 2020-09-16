@@ -10,7 +10,7 @@
 
             // Create chart instance
             var chart = am4core.create("chartdiv", am4charts.XYChart);
-            chart.dateFormatter.dateFormat = "x"
+
             // Add data
             chart.data = {{ chart_data|safe }};
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in

@@ -6,7 +6,7 @@ from data_manager.groups_per_column import group_users_per_column, user_jobs_gro
 from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_from_course, \
     covered_application_skills_from_course, skill_relation_with_user_applications
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
-from data_manager.projections import skill_demand_in_time, group_courses_users
+from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -20,8 +20,9 @@ def build_line_chart(request, **kwargs):
         skill_id = request.GET.get('skill_id', None)
         specialization = request.GET.get('specialization', None)
         if skill_id and specialization:
+            print("i am here")
             values = skill_demand_in_time(skill_id=skill_id, specialization=specialization)
-    return values
+            return values
 
 
 def build_circular_gauge(request, **kwargs):
@@ -33,7 +34,11 @@ def build_circular_gauge(request, **kwargs):
         job_id = request.GET.get('job_id', None)
         if user_id and job_id:
             values = covered_skills_from_user(user_id, job_id)
-            print(values)
+            return values
+    elif base_query == 'skills_courses_skills_coverage':
+        user_id = request.GET.get('user_id', None)
+        if user_id:
+            values = enrolled_courses_applications_coverage(user_id)
             return values
     elif base_query == 'course_match_cv':
         user_id = request.GET.get('user_id', None)

@@ -1,3 +1,5 @@
+import datetime
+
 import pandas as pd
 
 from data_manager.settings import ENGINE_STRING
@@ -19,3 +21,9 @@ def get_table(**kwargs):
     else:
         table_df = pd.DataFrame()
     return table_df
+
+
+def date_to_unix(date):
+    """This function is used to transform provided date to unix timestamp"""
+    unix_timestamp = int(datetime.datetime.strptime(date, "%Y-%m-%d").timestamp()) * 1000
+    return unix_timestamp

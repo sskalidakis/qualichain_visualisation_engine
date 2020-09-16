@@ -115,4 +115,7 @@ User skills - Job skills coverage percentage
 http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=200&base_query=skills_coverage&user_id=11&job_id=1
 
 
-http://localhost:8000/visualiser/show_line_chart?y_var_names[]=myVar1&y_var_names[]=myVar2&y_var_titles[]=Var1&y_var_titles[]=Var2&y_var_units[]=v1_unit&y_var_units[]=v2_unit&x_axis_type=time&x_axis_name=time&x_axis_title=Time&x_axis_unit=-&y_axis_title=Var&color_list_request[]=blue&color_list_request[]=red&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=2000
+http://localhost:8000/visualiser/show_line_chart?y_var_names[]=skill_demand&y_var_titles[]=skill_demand&y_var_units[]=v1_unit&x_axis_type=time&x_axis_name=time&x_axis_title=Time&x_axis_unit=-&y_axis_title=Skill Demand&color_list_request[]=blue&color_list_request[]=red&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=2000&skill_id=31&specialization=Software%20engineering&base_query=skill_demand_in_time
+
+Enrolled courses - applied jobs coverage percentage
+http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=200&base_query=skills_courses_skills_coverage&user_id=1
