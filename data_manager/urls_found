@@ -119,3 +119,8 @@ http://localhost:8000/visualiser/show_line_chart?y_var_names[]=skill_demand&y_va
 
 Enrolled courses - applied jobs coverage percentage
 http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=200&base_query=skills_courses_skills_coverage&user_id=1
+
+http://localhost:8000/visualiser/show_radar_chart?y_var_names[]=oil_consumption&y_var_names[]=energy_consumption&y_var_titles[]=Oil Consumption&y_var_titles[]=Energy Consumption&y_var_units[]=litres&y_var_units[]=Watt&x_axis_name=country&x_axis_title=Country&use_default_colors=false&chart_3d=false&color_list_request[]=red&color_list_request[]=blue
+
+user skills - job skills Radar Chart
+http://localhost:8000/visualiser/show_radar_chart?y_var_names[]=skil_level&y_var_titles[]=skill_level&y_var_units[]=litres&y_var_units[]=Watt&x_axis_name=name&x_axis_title=Name&use_default_colors=false&chart_3d=false&color_list_request[]=red&color_list_request[]=blue&base_query=user_job_skills&user_id=6&job_id=1

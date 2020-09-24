@@ -3,9 +3,9 @@ import sys
 from django.shortcuts import render
 
 from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart, \
-    build_cylinder_gauge
-from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
-    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA
+    build_cylinder_gauge, get_user_skills_for_job
+from visualiser.fake_data.fake_data import COLUMNCHART_DATA, BAR_HEATMAP_DATA_2, \
+    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -470,7 +470,9 @@ def show_radar_chart(request):
     min_max_y_value = response_data["min_max_y_value"]
     chart_3d = response_data["chart_3d"]
     use_default_colors = response_data["use_default_colors"]
-    data = RADAR_CHART_DATA
+    # data = RADAR_CHART_DATA
+    data = list(get_user_skills_for_job(user_id=6, job_id=1))
+    print(data)
     color_list = define_color_code_list(color_list_request)
     radar_chart = XY_chart(request, category_name, category_title, category_unit, variable_name, variable_title,
                            variable_unit, x_axis_type, y_axis_title, data, color_list, use_default_colors, chart_3d,

@@ -113,3 +113,23 @@ def enrolled_courses_applications_coverage(user_id):
     else:
         overlap_percentage = 0
     return overlap_percentage
+
+
+def fetch_user_cv_skills(user_id):
+    """This function is used to fetch user skills info"""
+    user_skills_command = """
+        SELECT cv_id, skill_id, skil_level FROM cv_skills
+        JOIN (
+            SELECT id FROM "CVs" WHERE user_id={user_id}
+            ) AS user_cv
+        ON cv_skills.cv_id=user_cv.id
+    """.format(**{'user_id': user_id})
+    user_skills_df = get_table(sql_command=user_skills_command)
+    return user_skills_df
+
+
+def fetch_job_skills(job_id):
+    """This function is used to fetch job skills"""
+    job_skills_command = """SELECT skill_id FROM job_skills WHERE job_id={job_id}""".format(**{'job_id': job_id})
+    job_skills_df = get_table(sql_command=job_skills_command)
+    return job_skills_df

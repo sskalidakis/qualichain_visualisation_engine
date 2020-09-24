@@ -4,7 +4,7 @@ import sys
 from data_manager.groups_per_column import group_users_per_column, user_jobs_groups, salary_information, \
     skill_demand_per_column, group_jobs_per_column
 from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_from_course, \
-    covered_application_skills_from_course, skill_relation_with_user_applications
+    covered_application_skills_from_course, skill_relation_with_user_applications, get_user_skills_for_job
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage
 
@@ -157,6 +157,17 @@ def build_pie_chart(category_name, request, **kwargs):
         column = request.GET.get("x_axis_name", "specialization")
         pie_chart_input = group_jobs_per_column(column)
     return pie_chart_input
+
+
+def build_radar_chart(request, **kwargs):
+    """This method is used to create radar chart"""
+    base_query = request.get('base_query', None)
+    if base_query == 'user_job_skills':
+        user_id = request.get('user_id', None)
+        job_id = request.get('job_id', None)
+        if user_id and job_id:
+            values = get_user_skills_for_job(user_id=user_id, job_id=job_id)
+            return values
 
 # TODO: Move this API to the correct module if it is useful
 
