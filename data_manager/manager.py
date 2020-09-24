@@ -24,13 +24,11 @@ def build_sankey_chart(request, **kwargs):
         trajectory_data = []
         trajectory_data = recursive_search_trajectory(data, trajectory_data)
         node_list = []
-        print(trajectory_data)
         for el in trajectory_data:
             if el["from"] not in node_list:
                 node_list.append(el["from"])
             if el["to"] not in node_list:
                 node_list.append(el["to"])
-        print(node_list)
         return trajectory_data, node_list
 
 def build_line_chart(request, **kwargs):
