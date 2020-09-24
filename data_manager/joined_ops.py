@@ -1,3 +1,4 @@
+from data_manager.groups_per_column import courses_avg_grades
 from data_manager.projections import retrieve_user_skills, fetch_user_cv_skills, fetch_job_skills
 from data_manager.settings import ENGINE_STRING
 from data_manager.utils import get_table
@@ -124,4 +125,18 @@ def user_grades(user_id):
     courses_names = get_table(sql_command=select_course_command)
     joined_courses_grades = pd.merge(courses_names, user_grades_df, on='course_id')[['name', 'grade']]
     results = list(joined_courses_grades.to_dict(orient='index').values())
+    return results
+
+
+def get_avg_course_names(courses):
+    """This function is used to summarize details for courses grades"""
+    course_grades = courses_avg_grades(courses)
+    if len(courses) > 1:
+        course_details = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(courses))
+    else:
+        course_details = """SELECT id as course_id, name FROM courses WHERE id={}""".format(courses[0])
+    courses_df = get_table(sql_command=course_details)
+    joined_grades_names = pd.merge(course_grades, courses_df, on='course_id')[['name', 'grade']]
+    results = list(joined_grades_names.to_dict(orient='index').values())
+    print(results)
     return results

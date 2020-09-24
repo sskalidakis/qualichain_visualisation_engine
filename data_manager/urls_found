@@ -127,3 +127,5 @@ http://localhost:8000/visualiser/show_radar_chart?y_var_names[]=skil_level&y_var
 
 user Courses - Grades Bar Chart
 http://localhost:8000/visualiser/show_column_chart?y_var_names[]=grade&y_var_titles[]=Grades&y_var_units[]=&y_var_units[]=%&x_axis_type=name&x_axis_name=name&x_axis_title=Course&y_axis_title=Grades&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=user_grades&user_id=3
+
+http://localhost:8000/visualiser/show_column_chart?y_var_names[]=grade&y_var_titles[]= Average Grades&y_var_units[]=&y_var_units[]=%&x_axis_type=name&x_axis_name=name&x_axis_title=Course&y_axis_title=Grades&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=courses_avg_grades&courses[]=24&courses[]=31&courses[]=160
