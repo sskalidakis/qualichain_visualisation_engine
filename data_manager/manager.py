@@ -7,11 +7,31 @@ from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_
     covered_application_skills_from_course, skill_relation_with_user_applications
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage
+from data_manager.utils import recursive_search_trajectory
+from visualiser.fake_data.fake_data import SANKEY_DATA_3
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 log = logging.getLogger(__name__)
 
+
+
+def build_sankey_chart(request, **kwargs):
+    """This function is used to build sankey charts"""
+    base_query = request.GET.get('base_query', None)
+    if base_query == 'career_path_trajectory':
+        data = SANKEY_DATA_3
+        trajectory_data = []
+        trajectory_data = recursive_search_trajectory(data, trajectory_data)
+        node_list = []
+        print(trajectory_data)
+        for el in trajectory_data:
+            if el["from"] not in node_list:
+                node_list.append(el["from"])
+            if el["to"] not in node_list:
+                node_list.append(el["to"])
+        print(node_list)
+        return trajectory_data, node_list
 
 def build_line_chart(request, **kwargs):
     """This function is used to build line charts"""

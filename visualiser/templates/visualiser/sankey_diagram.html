@@ -63,8 +63,10 @@
             nodeTemplate.stroke = am4core.color("#efefef");
             nodeTemplate.strokeWidth = 1;
             nodeTemplate.fillOpacity = 0.9;
+            nodeTemplate.tooltipText = "{to} " + "sutability " + "{value}" + "%";
 
             var nodeLink = chart.links.template;
+            nodeLink.tooltipText = "{from} " + "→" +" {to}"
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
             bullet.fillOpacity = 1;
             bullet.circle.radius = 7;

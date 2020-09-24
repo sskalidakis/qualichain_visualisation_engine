@@ -3,9 +3,9 @@ import sys
 from django.shortcuts import render
 
 from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart, \
-    build_cylinder_gauge
+    build_cylinder_gauge, build_sankey_chart
 from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
-    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA
+    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA, SANKEYCHORD_DATA, SANKEY_DATA_3
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -645,14 +645,12 @@ def sankey_diagram(request):
     :return:
     """
     response_sankey_diagram = get_response_flow_diagram(request)
-    node_list = response_sankey_diagram["node_list"]
     use_def_colors = response_sankey_diagram["use_def_colors"]
     chart_title = response_sankey_diagram["chart_title"]
     color_node_list = response_sankey_diagram["color_node_list"]
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
-    # data = SANKEYCHORD_DATA
-    data = SANKEYCHORD_DATA_2
+    data, node_list = build_sankey_chart(request)
     sankey_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 

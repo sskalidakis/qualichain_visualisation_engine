@@ -119,3 +119,8 @@ http://localhost:8000/visualiser/show_line_chart?y_var_names[]=skill_demand&y_va
 
 Enrolled courses - applied jobs coverage percentage
 http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=Strength&x_axis_title=Power&x_axis_unit=W&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=200&base_query=skills_courses_skills_coverage&user_id=1
+
+
+CAREER PATH TRAJECTORY
+-------------------------
+http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Career Path Trajectory&node_list[]=Programmer&node_list[]=senior%20developer&node_list[]=software%20architect&node_list[]=project%20manager&node_list[]=cto&node_list[]=product%20manager&node_list[]=lead%20developer&node_list[]=development%20manager&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=black&color_node_list[]=gray&base_query=career_path_trajectory
