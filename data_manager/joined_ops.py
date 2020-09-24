@@ -109,3 +109,19 @@ def get_user_skills_for_job(user_id, job_id):
     enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
     results = enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values()
     return results
+
+
+def user_grades(user_id):
+    """This function is used to fetch user grades"""
+    user_grades_command = """SELECT course_id, grade FROM user_courses WHERE status_value='{status}' and user_id={user_id}""".format(
+        **{'status': 'done', 'user_id': user_id})
+    user_grades_df = get_table(sql_command=user_grades_command)
+    course_ids = user_grades_df['course_id'].tolist()
+    if len(course_ids) > 1:
+        select_course_command = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(course_ids))
+    else:
+        select_course_command = """SELECT id as course_id, name FROM courses WHERE id={}""".format(course_ids[0])
+    courses_names = get_table(sql_command=select_course_command)
+    joined_courses_grades = pd.merge(courses_names, user_grades_df, on='course_id')[['name', 'grade']]
+    results = list(joined_courses_grades.to_dict(orient='index').values())
+    return results

@@ -4,7 +4,7 @@ import sys
 from data_manager.groups_per_column import group_users_per_column, user_jobs_groups, salary_information, \
     skill_demand_per_column, group_jobs_per_column
 from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_from_course, \
-    covered_application_skills_from_course, skill_relation_with_user_applications, get_user_skills_for_job
+    covered_application_skills_from_course, skill_relation_with_user_applications, get_user_skills_for_job, user_grades
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage
 
@@ -136,6 +136,10 @@ def build_bar_chart(x_axis_name, request, **kwargs):
         y_var_names = request.GET.getlist("y_var_names[]", [])
         column = request.GET.get("x_axis_name", "specialization")
         bar_chart_input = skill_demand_per_column(asc_ordering, y_var_names, limit_results, column)
+    elif base_query == 'user_grades':
+        user_id = request.GET.get('user_id', None)
+        bar_chart_input = user_grades(user_id)
+        print(bar_chart_input)
     return bar_chart_input
 
 
