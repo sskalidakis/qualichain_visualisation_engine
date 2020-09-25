@@ -27,7 +27,7 @@ def covered_cv_skills_from_course(user_id, course_id):
     cv_df = pd.read_sql_table('CVs', ENGINE_STRING)
     cv_id_float = cv_df.loc[cv_df['user_id'] == int(user_id)]['id']
     if len(cv_id_float) > 0:
-        cv_id = int(cv_id_float[0])
+        cv_id = int(cv_id_float.tolist()[0])
         cv_skills_df = pd.read_sql_table('cv_skills', ENGINE_STRING)
         cv_skills = cv_skills_df.loc[cv_skills_df['cv_id'] == int(cv_id)][['skill_id']]['skill_id'].to_list()
 
@@ -36,9 +36,6 @@ def covered_cv_skills_from_course(user_id, course_id):
             'skill_id'].to_list()
 
         common_skills = set(courses_skills).intersection(cv_skills)
-        print(cv_skills)
-        print(courses_skills)
-        print(common_skills)
         if common_skills:
             overlap_percentage = len(common_skills) / len(courses_skills) * 100
         else:
