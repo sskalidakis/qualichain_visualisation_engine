@@ -1,4 +1,5 @@
-from data_manager.projections import retrieve_user_skills
+from data_manager.groups_per_column import courses_avg_grades
+from data_manager.projections import retrieve_user_skills, fetch_user_cv_skills, fetch_job_skills
 from data_manager.settings import ENGINE_STRING
 from data_manager.utils import get_table
 import pandas as pd
@@ -73,7 +74,6 @@ def covered_application_skills_from_course(user_id, course_id):
         return 0
 
 
-
 def skill_relation_with_user_applications(user_id, skill_id):
     """This function is used find the relation of a skill to the user's interests (job applications)"""
     user_apps_df = pd.read_sql_table('user_applications', ENGINE_STRING)
@@ -90,3 +90,53 @@ def skill_relation_with_user_applications(user_id, skill_id):
         return overlap_percentage
     else:
         return 0
+
+
+def get_user_skills_for_job(user_id, job_id):
+    user_skills_df = fetch_user_cv_skills(user_id)
+    job_skills_df = fetch_job_skills(job_id)
+
+    joined_df = pd.merge(user_skills_df, job_skills_df, on='skill_id', how='outer')
+    joined_df = joined_df.fillna(0.0)
+
+    skill_ids = joined_df['skill_id'].values.tolist()
+    if len(skill_ids) > 1:
+        fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id in {skills_tuple}""".format(
+            **{'skills_tuple': tuple(skill_ids)})
+    else:
+        fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id={skill_id}""".format(
+            **{'skill_id': skill_ids[0]})
+    skill_details = get_table(sql_command=fetch_skill_names)
+    enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
+    results = enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values()
+    return results
+
+
+def user_grades(user_id):
+    """This function is used to fetch user grades"""
+    user_grades_command = """SELECT course_id, grade FROM user_courses WHERE status_value='{status}' and user_id={user_id}""".format(
+        **{'status': 'done', 'user_id': user_id})
+    user_grades_df = get_table(sql_command=user_grades_command)
+    course_ids = user_grades_df['course_id'].tolist()
+    if len(course_ids) > 1:
+        select_course_command = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(course_ids))
+    else:
+        select_course_command = """SELECT id as course_id, name FROM courses WHERE id={}""".format(course_ids[0])
+    courses_names = get_table(sql_command=select_course_command)
+    joined_courses_grades = pd.merge(courses_names, user_grades_df, on='course_id')[['name', 'grade']]
+    results = list(joined_courses_grades.to_dict(orient='index').values())
+    return results
+
+
+def get_avg_course_names(courses):
+    """This function is used to summarize details for courses grades"""
+    course_grades = courses_avg_grades(courses)
+    if len(courses) > 1:
+        course_details = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(courses))
+    else:
+        course_details = """SELECT id as course_id, name FROM courses WHERE id={}""".format(courses[0])
+    courses_df = get_table(sql_command=course_details)
+    joined_grades_names = pd.merge(course_grades, courses_df, on='course_id')[['name', 'grade']]
+    results = list(joined_grades_names.to_dict(orient='index').values())
+    print(results)
+    return results

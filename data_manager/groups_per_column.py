@@ -127,3 +127,15 @@ def skill_demand_per_column(asc, skill_names, limit, column):
         return results
     else:
         return []
+
+
+def courses_avg_grades(courses):
+    """This function is used to find average grades for provided courses"""
+    if len(courses) > 1:
+        course_grades_command = """SELECT grade, course_id FROM user_courses WHERE course_id in {courses_tuple}""". \
+            format(**{'courses_tuple': tuple(courses)})
+    else:
+        course_grades_command = """SELECT grade, course_id FROM user_courses WHERE course_id={}""".format(courses[0])
+    grades_df = get_table(sql_command=course_grades_command)
+    course_grades = grades_df.groupby('course_id').agg('mean').reset_index()
+    return course_grades
