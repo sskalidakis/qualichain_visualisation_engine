@@ -24,12 +24,7 @@
             var diagram_title = "{{ y_axis_title }}";
             var color_list = {{ color_list|safe }};
             var use_default_colors = {{ use_default_colors }};
-            console.log(color_list);
-            console.log(use_default_colors);
-            console.log(chart_data);
-            console.log(variable_name);
-            console.log(variable_title);
-            console.log()
+
 
 
             chart.legend = new am4charts.Legend();
@@ -65,12 +60,18 @@
 
             var series = [];
             for (var i = 0; i < variable_name.length; i++) {
+                var unit;
+                if (variable_unit.length === 0) {
+                    unit = []
+                } else {
+                    unit = variable_unit[i]
+                }
                 if (use_default_colors) {
                     series[i] = create_series(category_name, variable_name[i], chart.colors.getIndex(i), variable_title[i],
-                        variable_unit[i], valueAxis);
+                        unit, valueAxis);
                 } else {
                     series[i] = create_series(category_name, variable_name[i], color_list[i], variable_title[i],
-                        variable_unit[i], valueAxis);
+                        unit, valueAxis);
                 }
             }
             chart.cursor = new am4charts.RadarCursor();
@@ -87,7 +88,11 @@
                 series.fillOpacity = 0.2;
                 series.name = variable_title;
                 series.yAxis = myvalueAxis;
-                series.legendSettings.labelText = "{name} (" + variable_unit + "):";
+                if ((variable_unit.length!=0)&&(variable_unit !== undefined)&&(variable_unit!==null)) {
+                    series.legendSettings.labelText = "{name} (" + variable_unit + "):";
+                }else{
+                    series.legendSettings.labelText = "{name}" ;
+                }
                 series.legendSettings.itemValueText = "[bold]{valueY}[/bold]";
 
                 {#series.column.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";#}
