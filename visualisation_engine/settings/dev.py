@@ -136,3 +136,12 @@ STATICFILES_DIRS = [
 ]
 
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+
+# external postgres
+ENGINE_STRING = 'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(
+    'admin',
+    'admin',
+    'qualichain.epu.ntua.gr',
+    5435,
+    'qualichain_db'
+)

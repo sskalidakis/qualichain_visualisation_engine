@@ -2,7 +2,7 @@ import datetime
 
 import pandas as pd
 
-from data_manager.settings import ENGINE_STRING
+from django.conf import settings
 
 
 def get_table(**kwargs):
@@ -14,10 +14,10 @@ def get_table(**kwargs):
     """
     if 'sql_command' in kwargs.keys():
         sql_command = kwargs['sql_command']
-        table_df = pd.read_sql_query(sql_command, ENGINE_STRING)
+        table_df = pd.read_sql_query(sql_command, settings.ENGINE_STRING)
     elif 'table' in kwargs.keys():
         table = kwargs['table']
-        table_df = pd.read_sql_table(table, ENGINE_STRING)
+        table_df = pd.read_sql_table(table, settings.ENGINE_STRING)
     else:
         table_df = pd.DataFrame()
     return table_df

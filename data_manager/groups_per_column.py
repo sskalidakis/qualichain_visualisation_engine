@@ -1,6 +1,6 @@
 import pandas as pd
 from data_manager.projections import get_user_applied_jobs
-from data_manager.settings import ENGINE_STRING
+from django.conf import settings
 from data_manager.utils import get_table
 from visualiser.utils import convert_string_to_boolean
 
@@ -90,13 +90,13 @@ def skill_demand_per_column(asc, skill_names, limit, column):
     """This function is used to find the demand of a cv's skillset in different specialisations"""
 
     asc = convert_string_to_boolean(asc)
-    job_skills_df = pd.read_sql_table('job_skills', ENGINE_STRING)
-    jobs_df = pd.read_sql_table('jobs', ENGINE_STRING).rename(columns={'id': 'job_id'})
+    job_skills_df = pd.read_sql_table('job_skills', settings.ENGINE_STRING)
+    jobs_df = pd.read_sql_table('jobs', settings.ENGINE_STRING).rename(columns={'id': 'job_id'})
     final_values = {}
     column_values = []
     results = []
-    skills_df = pd.read_sql_table('skills', ENGINE_STRING)
-    skills_df = pd.read_sql_table('skills', ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(
+    skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING)
+    skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(
         columns={'id': 'skill_id', 'name': 'skill_title'})[
         ['skill_id', 'skill_title']]
     skill_ids = skills_df[['skill_id', 'skill_title']].set_index(
