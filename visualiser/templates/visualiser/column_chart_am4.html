@@ -36,7 +36,11 @@
             categoryAxis.renderer.minGridDistance = 30;
             categoryAxis.renderer.labels.template.rotation = -20;
             categoryAxis.renderer.labels.template.fontSize = "0.8em";
-            categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
+            if((x_axis_unit!== undefined) && (x_axis_unit!==null) && (x_axis_unit!=="")) {
+                categoryAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
+            }else{
+                categoryAxis.title.text = x_axis_title;
+            }
             categoryAxis.title.fontWeight = 600;
             categoryAxis.title.marginTop = 10;
             categoryAxis.title.marginBottom = 20;
@@ -46,7 +50,12 @@
             valueAxis.renderer.labels.template.adapter.add("text", function (text) {
                 return text ;
             });
-            valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
+            console.log(y_var_units);
+            if ((y_var_units.length!==0) && (y_var_units !== null) && (y_var_units !== undefined)) {
+                valueAxis.title.text = y_axis_title + " (" + y_var_units[0] + ")";
+            } else {
+                valueAxis.title.text = y_axis_title;
+            }
             valueAxis.title.fontWeight = 600;
 
         // Create series
