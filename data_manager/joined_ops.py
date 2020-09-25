@@ -108,7 +108,7 @@ def get_user_skills_for_job(user_id, job_id):
             **{'skill_id': skill_ids[0]})
     skill_details = get_table(sql_command=fetch_skill_names)
     enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
-    results = enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values()
+    results = list(enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values())
     return results
 
 

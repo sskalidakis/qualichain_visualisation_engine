@@ -188,10 +188,10 @@ def build_pie_chart(category_name, request, **kwargs):
 
 def build_radar_chart(request, **kwargs):
     """This method is used to create radar chart"""
-    base_query = request.get('base_query', None)
+    base_query = request.GET.get('base_query', None)
     if base_query == 'user_job_skills':
-        user_id = request.get('user_id', None)
-        job_id = request.get('job_id', None)
+        user_id = request.GET.get('user_id', None)
+        job_id = request.GET.get('job_id', None)
         if user_id and job_id:
             values = get_user_skills_for_job(user_id=user_id, job_id=job_id)
             return values
