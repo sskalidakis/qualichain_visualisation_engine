@@ -24,10 +24,13 @@ def covered_skills_from_user(user_id, job_id):
 
 def covered_cv_skills_from_course(user_id, course_id):
     """This function is used find the relation of a course to a user cv"""
-    cv_df = pd.read_sql_table('CVs', ENGINE_STRING)
-    cv_id_float = cv_df.loc[cv_df['user_id'] == int(user_id)]['id']
-    if len(cv_id_float) > 0:
-        cv_id = int(cv_id_float.tolist()[0])
+    # cv_df = pd.read_sql_table('CVs', ENGINE_STRING)
+    # cv_id_float = cv_df.loc[cv_df['user_id'] == int(user_id)]['id']
+    fetch_cv_command = """SELECT DISTINCT id FROM "CVs" WHERE user_id={user_id}""""".format(**{'user_id': user_id})
+    cv_df = get_table(sql_command=fetch_cv_command)
+    if len(cv_df) > 0:
+        cv_id = cv_df['id'].tolist()[0]
+        print(cv_id)
         cv_skills_df = pd.read_sql_table('cv_skills', ENGINE_STRING)
         cv_skills = cv_skills_df.loc[cv_skills_df['cv_id'] == int(cv_id)][['skill_id']]['skill_id'].to_list()
 

@@ -22,7 +22,7 @@ http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=id&y_var_titles[]=
 COURSE - Matching
 ------------
 With CV (Cylinder gauge)
-http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=482
+http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
 
 With CV (Circular gauge)
 http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=11&course_id=32
