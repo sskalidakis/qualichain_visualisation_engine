@@ -59,9 +59,9 @@
             series.tooltip.label.fill = am4core.color("#FFFFFF");
             series.tooltip.getFillFromObject = false;
             series.tooltip.background.fill = am4core.color("#323232");
-            series.slices.template.tooltipText ="{category}: {value.percent.formatNumber('#.#')}%\n"+variable_title[0]+
+            series.slices.template.tooltipText = category_title + ": {category}- {value.percent.formatNumber('#.#')}%\n"+variable_title[0]+
                 ": {value.value}"+ " (" +variable_unit[0]+ ")" ;
-            series.labels.template.text = "{category}: {value.value} (" + variable_unit[0] + ")";
+            series.labels.template.text = category_title+ ": {category}- {value.value} (" + variable_unit[0] + ")";
 
             if (use_default_colors === false) {
                 for (var i = 0; i < chart_data.length; i++) {
