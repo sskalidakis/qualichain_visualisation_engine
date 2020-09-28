@@ -1,11 +1,17 @@
 version: '3'
 
+networks:
+  config_qmediator:
+    external: true
+
 services:
 
   visualisation_engine:
     container_name: ${VIZ_HOSTNAME}
     hostname: ${VIZ_HOSTNAME}
     restart: always
+    networks:
+      - config_qmediator
     build:
       context: ".."
       dockerfile: config/Dockerfile
