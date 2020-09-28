@@ -9,5 +9,6 @@ This is the repository for the visualisation engine used in QualiChain.
 `python3 manage.py runserver --settings=visualisation_engine.settings.dev`
 
 ### Docker installation
-`docker-compose up -d --build`
+1. `cd config/`
+2. `docker-compose up -d --build`
 
