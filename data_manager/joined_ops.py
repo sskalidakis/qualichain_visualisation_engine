@@ -62,9 +62,6 @@ def covered_application_skills_from_course(user_id, course_id):
             'skill_id'].to_list()
 
         common_skills = set(courses_skills).intersection(job_skills)
-        print(job_skills)
-        print(courses_skills)
-        print(common_skills)
         if common_skills:
             overlap_percentage = len(common_skills) / len(courses_skills) * 100
         else:
@@ -103,12 +100,17 @@ def get_user_skills_for_job(user_id, job_id):
     if len(skill_ids) > 1:
         fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id in {skills_tuple}""".format(
             **{'skills_tuple': tuple(skill_ids)})
-    else:
+    elif len(skill_ids) == 1:
         fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id={skill_id}""".format(
             **{'skill_id': skill_ids[0]})
-    skill_details = get_table(sql_command=fetch_skill_names)
-    enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
-    results = list(enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values())
+    else:
+        fetch_skill_names = None
+    if fetch_skill_names:
+        skill_details = get_table(sql_command=fetch_skill_names)
+        enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
+        results = list(enhanced_joined_skills[['name', 'skil_level']].to_dict(orient='index').values())
+    else:
+        results = []
     return results
 
 
@@ -120,11 +122,16 @@ def user_grades(user_id):
     course_ids = user_grades_df['course_id'].tolist()
     if len(course_ids) > 1:
         select_course_command = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(course_ids))
-    else:
+    elif len(course_ids) == 1:
         select_course_command = """SELECT id as course_id, name FROM courses WHERE id={}""".format(course_ids[0])
-    courses_names = get_table(sql_command=select_course_command)
-    joined_courses_grades = pd.merge(courses_names, user_grades_df, on='course_id')[['name', 'grade']]
-    results = list(joined_courses_grades.to_dict(orient='index').values())
+    else:
+        select_course_command = None
+    if select_course_command:
+        courses_names = get_table(sql_command=select_course_command)
+        joined_courses_grades = pd.merge(courses_names, user_grades_df, on='course_id')[['name', 'grade']]
+        results = list(joined_courses_grades.to_dict(orient='index').values())
+    else:
+        results = []
     return results
 
 
@@ -133,10 +140,14 @@ def get_avg_course_names(courses):
     course_grades = courses_avg_grades(courses)
     if len(courses) > 1:
         course_details = """SELECT id as course_id, name FROM courses WHERE id in {}""".format(tuple(courses))
-    else:
+    elif len(courses) == 1:
         course_details = """SELECT id as course_id, name FROM courses WHERE id={}""".format(courses[0])
-    courses_df = get_table(sql_command=course_details)
-    joined_grades_names = pd.merge(course_grades, courses_df, on='course_id')[['name', 'grade']]
-    results = list(joined_grades_names.to_dict(orient='index').values())
-    print(results)
+    else:
+        course_details = None
+    if course_details:
+        courses_df = get_table(sql_command=course_details)
+        joined_grades_names = pd.merge(course_grades, courses_df, on='course_id')[['name', 'grade']]
+        results = list(joined_grades_names.to_dict(orient='index').values())
+    else:
+        results = []
     return results

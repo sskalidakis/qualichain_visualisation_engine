@@ -73,11 +73,14 @@ def get_user_enrolled_courses_skills(user_id):
             sql_command="SELECT * FROM skills_courses WHERE course_id in {courses_tuple}".format(
                 **{'courses_tuple': tuple(courses)})
         )
-    else:
+        enrolled_courses_skills = skill_courses_df['skill_id'].tolist()
+    elif len(courses) == 1:
         skill_courses_df = get_table(
             sql_command="SELECT * FROM skills_courses WHERE course_id={course_id}".format(**{'course_id': courses[0]})
         )
-    enrolled_courses_skills = skill_courses_df['skill_id'].tolist()
+        enrolled_courses_skills = skill_courses_df['skill_id'].tolist()
+    else:
+        enrolled_courses_skills = []
     return enrolled_courses_skills
 
 
