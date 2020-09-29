@@ -92,11 +92,14 @@ def get_applied_job_skills(user_id):
             sql_command="SELECT * FROM job_skills WHERE job_id in {job_tuple}".format(
                 **{'job_tuple': tuple(applied_jobs)})
         )
-    else:
+        applied_jobs_skills = applied_job_skills_df['skill_id'].tolist()
+    elif len(applied_jobs) == 1:
         applied_job_skills_df = get_table(
             sql_command="SELECT * FROM job_skills WHERE job_id={job_id}".format(**{'job_id': applied_jobs[0]})
         )
-    applied_jobs_skills = applied_job_skills_df['skill_id'].tolist()
+        applied_jobs_skills = applied_job_skills_df['skill_id'].tolist()
+    else:
+        applied_jobs_skills = []
     return applied_jobs_skills
 
 
