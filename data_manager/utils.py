@@ -54,3 +54,16 @@ def find_overlap_percentage(nominator, denominator):
     else:
         overlap_percentage = 0
     return overlap_percentage
+
+
+def format_bar_chart_input(dataframe, list_of_columns, group_by_columns, aggregation, new_columns=None,
+                           fill_na_value=None, orient='index'):
+    """This function is used to format a dataframe according the provided parameters"""
+    group = dataframe[list_of_columns].groupby(group_by_columns).agg(aggregation).reset_index()
+    if new_columns:
+        group = group.rename(columns=new_columns)
+    if fill_na_value:
+        group = group.fillna(fill_na_value)
+    values = group.to_dict(orient=orient).values
+    values_to_list = list(values)
+    return values_to_list
