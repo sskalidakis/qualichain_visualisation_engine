@@ -19,8 +19,6 @@ def covered_skills_from_user(user_id, job_id):
 
 def covered_cv_skills_from_course(user_id, course_id):
     """This function is used find the relation of a course to a user cv"""
-    # cv_df = pd.read_sql_table('CVs', settings.ENGINE_STRING)
-    # cv_id_float = cv_df.loc[cv_df['user_id'] == int(user_id)]['id']
     fetch_cv_command = """SELECT DISTINCT id FROM "CVs" WHERE user_id={user_id}""""".format(**{'user_id': user_id})
     cv_df = get_table(sql_command=fetch_cv_command)
     if len(cv_df) > 0:
@@ -40,14 +38,14 @@ def covered_cv_skills_from_course(user_id, course_id):
 
 def covered_application_skills_from_course(user_id, course_id):
     """This function is used find the relation of a course to the user's interests (job applications)"""
-    user_apps_df = pd.read_sql_table('user_applications', settings.ENGINE_STRING)
+    user_apps_df = get_table(table='user_applications')
     job_ids = user_apps_df.loc[user_apps_df['user_id'] == int(user_id)].job_id.to_list()
 
     if len(job_ids) > 0:
-        job_skills_df = pd.read_sql_table('job_skills', settings.ENGINE_STRING)
+        job_skills_df = get_table(table='job_skills')
         job_skills = job_skills_df[job_skills_df['job_id'].isin(job_ids)][['skill_id']]['skill_id'].to_list()
 
-        courses_skills_df = pd.read_sql_table('skills_courses', settings.ENGINE_STRING)
+        courses_skills_df = get_table(table='skills_courses')
         courses_skills = courses_skills_df.loc[courses_skills_df['course_id'] == int(course_id)][['skill_id']][
             'skill_id'].to_list()
 
@@ -59,10 +57,10 @@ def covered_application_skills_from_course(user_id, course_id):
 
 def skill_relation_with_user_applications(user_id, skill_id):
     """This function is used find the relation of a skill to the user's interests (job applications)"""
-    user_apps_df = pd.read_sql_table('user_applications', settings.ENGINE_STRING)
+    user_apps_df = get_table(table='user_applications')
     job_ids = user_apps_df.loc[user_apps_df['user_id'] == int(user_id)].job_id.to_list()
     if len(job_ids) > 0:
-        job_skills_df = pd.read_sql_table('job_skills', settings.ENGINE_STRING)
+        job_skills_df = get_table(table='job_skills')
         common_count = 0
         for job_id in job_ids:
             job_skills = job_skills_df[job_skills_df['job_id'] == job_id][['skill_id']]['skill_id'].to_list()

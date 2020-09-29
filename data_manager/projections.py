@@ -50,11 +50,11 @@ def skill_demand_in_time(skill_id, specialization):
 def group_courses_users(limit, asc):
     """This function is used to find the number of courses per professor"""
     asc = convert_string_to_boolean(asc)
-    user_courses_df = pd.read_sql_table('user_courses', settings.ENGINE_STRING)
+    user_courses_df = get_table(table='user_courses')
     professor_courses_df = user_courses_df.where(user_courses_df['status_value'] == 'taught')
     grouped_professor_courses_df = professor_courses_df[['user_id', 'id']].groupby('user_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(limit)
-    users_df = pd.read_sql_table('users', settings.ENGINE_STRING).rename(columns={'id': 'user_id', 'fullName': 'user_name'})
+    users_df = get_table(table='users').rename(columns={'id': 'user_id', 'fullName': 'user_name'})
     professors_courses = pd.merge(grouped_professor_courses_df, users_df, how='left', on='user_id')[
         ['user_name', 'count']].sort_values('count', ascending=asc)
     final_values = list(professors_courses.to_dict('index').values())

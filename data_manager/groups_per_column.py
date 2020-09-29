@@ -90,12 +90,12 @@ def skill_demand_per_column(asc, skill_names, limit, column):
     """This function is used to find the demand of a cv's skillset in different specialisations"""
 
     asc = convert_string_to_boolean(asc)
-    job_skills_df = pd.read_sql_table('job_skills', settings.ENGINE_STRING)
-    jobs_df = pd.read_sql_table('jobs', settings.ENGINE_STRING).rename(columns={'id': 'job_id'})
+    job_skills_df = get_table(table='job_skills')
+    jobs_df = get_table(table='jobs').rename(columns={'id': 'job_id'})
     final_values = {}
     column_values = []
     results = []
-    skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING)
+    skills_df = get_table(table='skills')
     skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(
         columns={'id': 'skill_id', 'name': 'skill_title'})[
         ['skill_id', 'skill_title']]
@@ -103,7 +103,6 @@ def skill_demand_per_column(asc, skill_names, limit, column):
         'skill_id').to_dict(orient='index')
 
     if len(skill_ids) != 0:
-        print(skill_ids)
         for skill_key, skill_obj in skill_ids.items():
             sel_job_skills_df = job_skills_df[(job_skills_df['skill_id'] == int(skill_key))]
             skill_demand_df = pd.merge(sel_job_skills_df, jobs_df, how='left', on='job_id')[['job_id', column]]
