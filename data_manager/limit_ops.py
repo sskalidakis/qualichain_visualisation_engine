@@ -12,7 +12,6 @@ def popular_user_skills(asc, most_popular_skills):
     skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING).rename(columns={'id': 'skill_id', 'name': 'skill_name'})
     popular_skills_df = pd.merge(grouped_cv_skills_df, skills_df, how='left', on='skill_id')[['skill_name', 'count']]
     final_values = list(popular_skills_df.to_dict('index').values())
-    print(final_values)
     return final_values
 
 
@@ -27,7 +26,6 @@ def popular_user_courses(asc, number_of_courses):
     popular_courses = pd.merge(grouped_user_courses_df, courses_df, how='left', on='course_id')[
         ['course_name', 'count']].sort_values('count', ascending=asc).tail(number_of_courses)
     final_values = list(popular_courses.to_dict('index').values())
-    print(final_values)
     return final_values
 
 
@@ -40,7 +38,6 @@ def popular_skills(asc, most_popular_skills):
     skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING).rename(columns={'id': 'skill_id', 'name': 'skill_name'})
     popular_skills_df = pd.merge(grouped_job_skills_df, skills_df, how='left', on='skill_id')[['skill_name', 'count']]
     final_values = list(popular_skills_df.to_dict('index').values())
-    print(final_values)
     return final_values
 
 
@@ -62,5 +59,4 @@ def popular_courses(asc, number_of_courses):
     popular_courses = pd.merge(skills_courses_count, courses_df, how='left', on='course_id')[
         ['course_name', 'count']].sort_values('count', ascending=asc).tail(number_of_courses)
     final_values = list(popular_courses.to_dict('index').values())
-    print(final_values)
     return final_values

@@ -1,7 +1,7 @@
 import pandas as pd
 
 from django.conf import settings
-from data_manager.utils import get_table, date_to_unix
+from data_manager.utils import get_table, date_to_unix, find_overlap_percentage
 from visualiser.utils import convert_string_to_boolean
 
 
@@ -112,12 +112,7 @@ def enrolled_courses_applications_coverage(user_id):
     """
     enrolled_courses_skills = get_user_enrolled_courses_skills(user_id)
     applied_jobs_skills = get_applied_job_skills(user_id)
-
-    common_skills = list(set(enrolled_courses_skills).intersection(applied_jobs_skills))
-    if common_skills:
-        overlap_percentage = len(common_skills) / len(applied_jobs_skills) * 100
-    else:
-        overlap_percentage = 0
+    overlap_percentage = find_overlap_percentage(nominator=enrolled_courses_skills, denominator=applied_jobs_skills)
     return overlap_percentage
 
 

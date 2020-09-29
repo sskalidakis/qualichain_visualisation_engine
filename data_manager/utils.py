@@ -43,3 +43,14 @@ def recursive_search_trajectory(data, trajectory_data):
         else:
             pass
     return trajectory_data
+
+
+def find_overlap_percentage(nominator, denominator):
+    """This function is used to find overlap percentage between 2 lists"""
+    common_skills_set = set(nominator).intersection(denominator)
+    common_skills_list = list(common_skills_set)
+    if common_skills_list:
+        overlap_percentage = len(common_skills_list) / len(denominator) * 100
+    else:
+        overlap_percentage = 0
+    return overlap_percentage

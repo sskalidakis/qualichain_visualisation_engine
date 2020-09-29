@@ -1,9 +1,8 @@
 from data_manager.groups_per_column import courses_avg_grades
 from data_manager.projections import retrieve_user_skills, fetch_user_cv_skills, fetch_job_skills
 from django.conf import settings
-from data_manager.utils import get_table
+from data_manager.utils import get_table, find_overlap_percentage
 import pandas as pd
-import math
 
 
 def covered_skills_from_user(user_id, job_id):
@@ -14,11 +13,7 @@ def covered_skills_from_user(user_id, job_id):
     )
     job_skills_df = get_table(sql_command=jobs_skills_sql_command)
     job_skills_list = list(job_skills_df.skill_id)
-    common_skills = list(set(users_skills_list).intersection(job_skills_list))
-    if common_skills:
-        overlap_percentage = len(common_skills) / len(job_skills_list) * 100
-    else:
-        overlap_percentage = 0
+    overlap_percentage = find_overlap_percentage(nominator=job_skills_list, denominator=job_skills_list)
     return overlap_percentage
 
 
@@ -30,19 +25,14 @@ def covered_cv_skills_from_course(user_id, course_id):
     cv_df = get_table(sql_command=fetch_cv_command)
     if len(cv_df) > 0:
         cv_id = cv_df['id'].tolist()[0]
-        print(cv_id)
-        cv_skills_df = pd.read_sql_table('cv_skills', settings.ENGINE_STRING)
+        cv_skills_df = get_table(table='cv_skills')
         cv_skills = cv_skills_df.loc[cv_skills_df['cv_id'] == int(cv_id)][['skill_id']]['skill_id'].to_list()
 
-        courses_skills_df = pd.read_sql_table('skills_courses', settings.ENGINE_STRING)
+        courses_skills_df = get_table(table='skills_courses')
         courses_skills = courses_skills_df.loc[courses_skills_df['course_id'] == int(course_id)][['skill_id']][
             'skill_id'].to_list()
 
-        common_skills = set(courses_skills).intersection(cv_skills)
-        if common_skills:
-            overlap_percentage = len(common_skills) / len(courses_skills) * 100
-        else:
-            overlap_percentage = 0
+        overlap_percentage = find_overlap_percentage(nominator=courses_skills, denominator=cv_skills)
         return overlap_percentage
     else:
         return 0
@@ -61,11 +51,7 @@ def covered_application_skills_from_course(user_id, course_id):
         courses_skills = courses_skills_df.loc[courses_skills_df['course_id'] == int(course_id)][['skill_id']][
             'skill_id'].to_list()
 
-        common_skills = set(courses_skills).intersection(job_skills)
-        if common_skills:
-            overlap_percentage = len(common_skills) / len(courses_skills) * 100
-        else:
-            overlap_percentage = 0
+        overlap_percentage = find_overlap_percentage(nominator=courses_skills, denominator=job_skills)
         return overlap_percentage
     else:
         return 0
