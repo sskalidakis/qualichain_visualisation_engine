@@ -1,7 +1,7 @@
 import pandas as pd
 from data_manager.projections import get_user_applied_jobs
 from django.conf import settings
-from data_manager.utils import get_table
+from data_manager.utils import get_table, format_bar_chart_input
 from visualiser.utils import convert_string_to_boolean
 
 
@@ -9,8 +9,12 @@ def group_users_per_column(column, aggregation="count"):
     """This function is used to group users table according to provided column"""
 
     users_df = get_table(table='users')
-    group = users_df[[column, 'id']].groupby(column).agg(aggregation).reset_index()
-    final_values = list(group.to_dict('index').values())
+    final_values = format_bar_chart_input(
+        dataframe=users_df,
+        list_of_columns=[column, 'id'],
+        group_by_columns=column,
+        aggregation=aggregation
+    )
     return final_values
 
 
@@ -18,8 +22,12 @@ def get_job_application_stats(sql_command, column, aggregation="count"):
     """This function is used to retrieve job application insights"""
     if sql_command:
         related_jobs = get_table(sql_command=sql_command)
-        group = related_jobs[[column, "id"]].groupby(column).agg(aggregation).reset_index()
-        values = list(group.to_dict('index').values())
+        values = format_bar_chart_input(
+            dataframe=related_jobs,
+            list_of_columns=[column, 'id'],
+            group_by_columns=column,
+            aggregation=aggregation
+        )
         return values
     else:
         return None
@@ -28,8 +36,13 @@ def get_job_application_stats(sql_command, column, aggregation="count"):
 def group_jobs_per_column(column):
     """This function is used to group jobs table according to provided column"""
     jobs_df = get_table(table='jobs')
-    group = jobs_df[[column, 'id']].groupby(column).agg('count').reset_index().rename(columns={'id': 'count'})
-    final_values = list(group.to_dict('index').values())
+    final_values = format_bar_chart_input(
+        dataframe=jobs_df,
+        list_of_columns=[column, 'id'],
+        group_by_columns=column,
+        aggregation='count',
+        new_columns={'id': 'count'}
+    )
     return final_values
 
 

@@ -64,6 +64,6 @@ def format_bar_chart_input(dataframe, list_of_columns, group_by_columns, aggrega
         group = group.rename(columns=new_columns)
     if fill_na_value:
         group = group.fillna(fill_na_value)
-    values = group.to_dict(orient=orient).values
+    values = group.to_dict(orient=orient).values()
     values_to_list = list(values)
     return values_to_list
