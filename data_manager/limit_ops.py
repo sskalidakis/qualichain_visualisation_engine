@@ -30,29 +30,48 @@ def limit_ops_formatter(first_df, second_df, how, on, keep_columns, orient='inde
     return result
 
 
+def limit_ops_skeleton(**kwargs):
+    """This function provides a skeleton for limit ops calculations"""
+    group_phase = kwargs['group_phase']
+    tail = kwargs['tail']
+    loading_phase = kwargs['loading_phase']
+    final_phase = kwargs['final_phase']
+
+    grouped_df = limit_ops_general_groups(
+        **group_phase
+    )
+    grouped_df = grouped_df.tail(tail)
+    loaded_table = load_and_rename(**loading_phase)
+
+    final_phase['first_df'] = grouped_df
+    final_phase['second_df'] = loaded_table
+
+    final_values = limit_ops_formatter(**final_phase)
+    return final_values
+
+
 def popular_user_skills(asc, most_popular_skills):
-    """This function is used to find the most popular skills in the Qualichain users (appearing in cvs)"""
+    """This function is used to find the most popular skills in the QualiChain users (appearing in cvs)"""
     asc = convert_string_to_boolean(asc)
     cv_skills_df = get_table(table='cv_skills')
 
-    grouped_df = limit_ops_general_groups(
-        dataframe=cv_skills_df,
-        list_of_columns=['skill_id', 'id'],
-        group_column='skill_id',
-        sort_by_column='count',
-        reset_index_val='count',
-        ascending=asc
-    )
-
-    grouped_cv_skills_df = grouped_df.tail(most_popular_skills)
-    skills_df = load_and_rename(table_name='skills', new_columns={'id': 'skill_id', 'name': 'skill_name'})
-
-    final_values = limit_ops_formatter(
-        first_df=grouped_cv_skills_df,
-        second_df=skills_df,
-        how='left',
-        on='skill_id',
-        keep_columns=['skill_name', 'count']
+    final_values = limit_ops_skeleton(
+        group_phase={
+            'dataframe': cv_skills_df,
+            'list_of_columns': ['skill_id', 'id'],
+            'group_column': 'skill_id',
+            'sort_by_column': 'count',
+            'reset_index_val': 'count',
+            'ascending': asc
+        },
+        tail=most_popular_skills,
+        loading_phase={'table_name': 'skills', 'new_columns': {'id': 'skill_id', 'name': 'skill_name'}
+                       },
+        final_phase={
+            'how': 'left',
+            'on': 'skill_id',
+            'keep_columns': ['skill_name', 'count']
+        }
     )
     return final_values
 
@@ -63,26 +82,26 @@ def popular_user_courses(asc, number_of_courses):
     user_courses_df = get_table(table='user_courses')
     user_courses_df = user_courses_df.where(user_courses_df['status_value'] != 'taught')
 
-    grouped = limit_ops_general_groups(
-        dataframe=user_courses_df,
-        list_of_columns=['course_id', 'id'],
-        group_column='course_id',
-        sort_by_column='count',
-        reset_index_val='count',
-        ascending=asc
-    )
-    grouped_user_courses_df = grouped.tail(number_of_courses)
-    courses_df = load_and_rename(table_name='courses', new_columns={'id': 'course_id', 'name': 'course_name'})
-
-    final_values = limit_ops_formatter(
-        first_df=grouped_user_courses_df,
-        second_df=courses_df,
-        how='left',
-        on='course_id',
-        keep_columns=['course_name', 'count'],
-        sorted_by='count',
-        asc=asc,
-        tail_num=number_of_courses
+    final_values = limit_ops_skeleton(
+        group_phase={
+            'dataframe': user_courses_df,
+            'list_of_columns': ['course_id', 'id'],
+            'group_column': 'course_id',
+            'sort_by_column': 'count',
+            'reset_index_val': 'count',
+            'ascending': asc
+        },
+        tail=number_of_courses,
+        loading_phase={'table_name': 'courses', 'new_columns': {'id': 'course_id', 'name': 'course_name'}
+                       },
+        final_phase={
+            'how': 'left',
+            'on': 'course_id',
+            'keep_columns': ['course_name', 'count'],
+            'sorted_by': 'count',
+            'asc': asc,
+            'tail_num': number_of_courses
+        }
     )
     return final_values
 
@@ -92,23 +111,22 @@ def popular_skills(asc, most_popular_skills):
     asc = convert_string_to_boolean(asc)
     job_skills_df = get_table(table='job_skills')
 
-    grouped = limit_ops_general_groups(
-        dataframe=job_skills_df,
-        list_of_columns=['skill_id', 'id'],
-        group_column='skill_id',
-        sort_by_column='count',
-        ascending=asc,
-        reset_index_val='count'
-    )
-    grouped_job_skills_df = grouped.tail(most_popular_skills)
-
-    skills_df = load_and_rename(table_name='skills', new_columns={'id': 'skill_id', 'name': 'skill_name'})
-    final_values = limit_ops_formatter(
-        first_df=grouped_job_skills_df,
-        second_df=skills_df,
-        how='left',
-        on='skill_id',
-        keep_columns=['skill_name', 'count']
+    final_values = limit_ops_skeleton(
+        group_phase={
+            'dataframe': job_skills_df,
+            'list_of_columns': ['skill_id', 'id'],
+            'group_column': 'skill_id',
+            'sort_by_column': 'count',
+            'ascending': asc,
+            'reset_index_val': 'count'
+        },
+        tail=most_popular_skills,
+        loading_phase={'table_name': 'skills', 'new_columns': {'id': 'skill_id', 'name': 'skill_name'}},
+        final_phase={
+            'how': 'left',
+            'on': 'skill_id',
+            'keep_columns': ['skill_name', 'count']
+        }
     )
     return final_values
 
