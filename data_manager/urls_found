@@ -22,50 +22,50 @@ User/role
 COURSE - Matching
 ------------
 With CV (Cylinder gauge)
-http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
+(xx)http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
 
 With CV (Circular gauge)
-http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
+(xx)http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
 
 
 With Job Applications (Cylinder gauge)
-http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=6&course_id=44
+(xx)http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=6&course_id=44
 
 With Job Applications (circular gauge)
-http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=6&course_id=44
+(xx)http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=6&course_id=44
 
 SKILL -Matching
 -----------------
 Only with job applications (Cylinder gauge)
-http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=skill_match_applications&user_id=6&skill_id=354
+(xx)http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=skill_match_applications&user_id=6&skill_id=354
 
 Only with job applications (Circular gauge)
-http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=skill_match_applications&user_id=6&skill_id=354
+(xx)http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=skill_match_applications&user_id=6&skill_id=354
 
 COURSES- SKILLS
 ----------------
 Most popular skills (job market)
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=True&limit_skills=10
+(xx)http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=skill_name&x_axis_title=Skill&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=True&limit_skills=10
 
 Least popular skills (job market)
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=False&limit_skills=10
+(xx)http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_skills_market&asc=False&limit_skills=10
 
 
 Most popular courses(job market)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=True&limit_courses=10
+(xx)http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=True&limit_courses=10
 
 Least popular courses(job market)
 (bar chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=False&limit_courses=10
+(xx)http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Job%20postings&y_var_units[]=number%20of%20job%20postings&x_axis_type=text&x_axis_name=course_name&x_axis_title=Course&y_axis_title=Demand%20in%20Job%20Market&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=popular_courses_market&asc=False&limit_courses=10
 
 Courses per Professor
 (bar_chart)
-http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Courses&y_var_units[]=number%20of%20courses&x_axis_type=text&x_axis_name=user_name&x_axis_title=Professor&y_axis_title=Courses%20taught&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_course_professor
+(xx)http://localhost:8000/visualiser/show_column_chart?y_var_names[]=count&y_var_titles[]=Courses&y_var_units[]=number%20of%20courses&x_axis_type=text&x_axis_name=user_name&x_axis_title=Professor&y_axis_title=Courses%20taught&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_course_professor
 (pie_chart)
-http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=count&y_var_titles[]=Courses&y_var_units[]=number%20of%20courses&x_axis_type=text&x_axis_name=user_name&x_axis_title=Professor&y_axis_title=Courses%20taught&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_course_professor
+(xx)http://localhost:8000/visualiser/show_pie_chart?y_var_names[]=count&y_var_titles[]=Courses&y_var_units[]=number%20of%20courses&x_axis_type=text&x_axis_name=user_name&x_axis_title=Professor&y_axis_title=Courses%20taught&color_list_request[]=blue&color_list_request[]=red&color_list_request[]=green&use_default_colors=false&chart_3d=true&use_default_colors=false&base_query=group_course_professor
 
 
 SKILLS-JOB
@@ -106,7 +106,7 @@ Enrolled courses - applied jobs coverage percentage
 
 CAREER PATH TRAJECTORY
 -------------------------
-http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Career Path Trajectory&node_list[]=Programmer&node_list[]=senior%20developer&node_list[]=software%20architect&node_list[]=project%20manager&node_list[]=cto&node_list[]=product%20manager&node_list[]=lead%20developer&node_list[]=development%20manager&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=black&color_node_list[]=gray&base_query=career_path_trajectory
+(--)http://localhost:8000/visualiser/show_sankey_diagram?pass_value=pass_value&use_def_colors=false&chart_title=Career Path Trajectory&node_list[]=Programmer&node_list[]=senior%20developer&node_list[]=software%20architect&node_list[]=project%20manager&node_list[]=cto&node_list[]=product%20manager&node_list[]=lead%20developer&node_list[]=development%20manager&color_node_list[]=blue&color_node_list[]=violet&color_node_list[]=purple&color_node_list[]=fuchsia&color_node_list[]=red&color_node_list[]=ceramic&color_node_list[]=gold&color_node_list[]=black&color_node_list[]=gray&base_query=career_path_trajectory
 
 user skills - job skills Radar Chart
 (x) http://localhost:8000/visualiser/show_radar_chart?y_var_names[]=skil_level&y_var_titles[]=skill_level&x_axis_name=name&x_axis_title=Name&use_default_colors=false&chart_3d=false&color_list_request[]=red&color_list_request[]=blue&base_query=user_job_skills&user_id=6&job_id=1

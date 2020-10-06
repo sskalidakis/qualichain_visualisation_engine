@@ -179,8 +179,7 @@ class X_chart:
         :param use_default_colors: If “true”, the default colours are used for the chosen chart (String: "true" or "false")
         :param chart_3d: If “true”, the chart is displayed in three dimensions. (not all visualisations support 3D) (String: "true" or "false")
         :param minmax_y_value: A two-element list that contains the min and max value of the variables on the Y-Axis. (List of Numbers)
-        :param chart_type: The type of the chart. Options : line_chart, column_chart, range_chart, bar_range_chart,
-                stacked_column_chart, column_heatmap_chart, pie_chart, radar_chart
+        :param chart_type: circular_gauge_chart, cylinder_gauge_chart
         """
         self.x_axis_name = x_axis_name
         self.x_axis_title = x_axis_title
