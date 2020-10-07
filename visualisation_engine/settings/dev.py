@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     # 'data_manager'
 ]
 
+# x_frame option set to same_origin
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
