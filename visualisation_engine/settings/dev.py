@@ -26,8 +26,9 @@ SECRET_KEY = 's5oyds$!u$m%m#oq6iqr!=sq)$5gt(bo6bnu+2qsg#fcgzfw@b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'qualichain_db@qualichain.epu.ntua.gr']
-
+ALLOWED_HOSTS = ['*']
+#CORS
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # CORS
+    'corsheaders',
     'django.contrib.staticfiles',
     'visualiser',
     # 'data_manager'
@@ -45,6 +48,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #CORS
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

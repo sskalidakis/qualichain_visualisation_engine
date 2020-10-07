@@ -88,7 +88,7 @@
 
             // Add scrollbar
             chart.scrollbarX = new am4charts.XYChartScrollbar();
-            chart.scrollbarX.renderer.labels.template.disabled = true;
+            {#chart.scrollbarX.renderer.labels.template.disabled = true;#}
 
             function create_series(setNameOfX, myVar, fillColor,  myVarTitle, myVarUnit, y_axis_title,
                                    x_axis_name, chart_3d) {
