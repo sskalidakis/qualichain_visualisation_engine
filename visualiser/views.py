@@ -8,6 +8,7 @@ from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, B
     BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA, SANKEYCHORD_DATA, SANKEY_DATA_3
 
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 from visualiser.utils import *
 import json
@@ -278,7 +279,7 @@ class MapChart:
             return render(self.request, 'visualiser/heat_map_on_map.html', self.content)
 
 
-@csrf_exempt
+
 def get_response_data_XY(request):
     if request.method == "GET":
         json_response = {
@@ -305,6 +306,7 @@ def get_response_data_XY(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_circular_gauge_chart(request):
     response_data = get_response_data_XY(request)
     print(response_data)
@@ -328,6 +330,7 @@ def show_circular_gauge_chart(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_cylinder_gauge_chart(request):
     response_data = get_response_data_XY(request)
     print(response_data)
@@ -350,6 +353,7 @@ def show_cylinder_gauge_chart(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_line_chart(request):
     response_data = get_response_data_XY(request)
     print(response_data)
@@ -380,6 +384,7 @@ def show_line_chart(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_column_chart(request):
     # Use get_response_data_XY to get the same variables
     response_data = get_response_data_XY(request)
@@ -405,6 +410,8 @@ def show_column_chart(request):
     return column_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_ma_column_chart(request):
     # Use get_response_data_XY to get the same variables
     response_data = get_response_data_XY(request)
@@ -431,6 +438,7 @@ def show_ma_column_chart(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_pie_chart(request):
     response_data = get_response_data_XY(request)
     variable_name = response_data["y_var_names"]
@@ -455,6 +463,8 @@ def show_pie_chart(request):
     return pie_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_radar_chart(request):
     response_data = get_response_data_XY(request)
     variable_name = response_data["y_var_names"]
@@ -477,6 +487,8 @@ def show_radar_chart(request):
     return radar_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_range_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -500,6 +512,8 @@ def show_range_chart(request):
     return range_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_bar_range_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -523,6 +537,8 @@ def show_bar_range_chart(request):
     return bar_range_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_stacked_column_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -548,6 +564,8 @@ def show_stacked_column_chart(request):
     return stacked_column_chart.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def show_bar_heat_map(request):
     response_data_xy = get_response_data_XY(request)
     y_var_names = response_data_xy['y_var_names']
@@ -572,7 +590,6 @@ def show_bar_heat_map(request):
     return bar_heat_map_chart.show_chart()
 
 
-@csrf_exempt
 def get_response_heat_map(request):
     if request.method == "GET":
         json_response = {
@@ -588,6 +605,7 @@ def get_response_heat_map(request):
 
 
 @csrf_exempt
+@xframe_options_exempt
 def show_heat_map_chart(request):
     response_data_xy = get_response_data_XY(request)
     y_axis_name = response_data_xy['y_var_names'][0]
@@ -622,7 +640,7 @@ def show_heat_map_chart(request):
     return heat_map_chart.show_chart()
 
 
-@csrf_exempt
+
 def get_response_flow_diagram(request):
     if request.method == "GET":
         json_response = {
@@ -637,6 +655,8 @@ def get_response_flow_diagram(request):
     return json_response
 
 
+@csrf_exempt
+@xframe_options_exempt
 def sankey_diagram(request):
     """
     As input we will take a dict with key the begin and value a list with first element end and second the value
@@ -654,6 +674,8 @@ def sankey_diagram(request):
     return sankey_diagram.show_chart()
 
 
+@csrf_exempt
+@xframe_options_exempt
 def chord_diagram(request):
     """
     As in put we will take a dict with key the begin and value a list with first element end and second the value
@@ -723,6 +745,8 @@ def get_response_heat_map_on_map(request):
     return json_response
 
 
+@csrf_exempt
+@xframe_options_exempt
 def heat_map_on_map(request):
     response_heat_map_on_map = get_response_heat_map_on_map(request)
     projection = response_heat_map_on_map["projection"]
