@@ -3,6 +3,8 @@ from data_manager.projections import get_user_applied_jobs
 from django.conf import settings
 from data_manager.utils import get_table, format_bar_chart_input, convert_list_to_string_tuple
 from visualiser.utils import convert_string_to_boolean
+from operator import is_not
+from functools import partial
 
 
 def group_users_per_column(column, aggregation="count"):
@@ -110,68 +112,16 @@ def skill_demand_per_column(asc, skill_names, limit, column):
 
     skills_df = get_table(sql_command=skill_query)
     joined_jobs_skills = pd.merge(job_skills_df, skills_df, how='inner', on='skill_id')
-    joined_job_skills_column = pd.merge(joined_jobs_skills, jobs_df, how='left', on='job_id')[['job_id', 'skill_title', column]]
+    joined_job_skills_column = pd.merge(joined_jobs_skills, jobs_df, how='left', on='job_id')[
+        ['job_id', 'skill_title', column]]
     final_df = joined_job_skills_column.groupby(['skill_title', column]).agg({'job_id': ['count']})
     final_df.columns = ['count']
     ordered_final_df = final_df.reset_index().sort_values('count', ascending=asc).tail(limit)
-    df_to_list = list(ordered_final_df.to_dict('index').values())
+    temp = list(
+        ordered_final_df.pivot(index='specialization', columns='skill_title', values='count').reset_index().fillna(
+            0).to_dict('index').values())
+    return temp
 
-    final_list = []
-    if len(df_to_list) != 0:
-        column_val = df_to_list[0][column]
-        dict = {column: column_val}
-        for el in df_to_list:
-            if column_val == el[column]:
-                dict[el['skill_title']] = el['count']
-            else:
-                final_list.append(dict)
-                column_val = el[column]
-                dict = {column: column_val, el['skill_title']: el['count']}
-
-        final_list.append(dict)
-
-        return final_list
-    else:
-        return []
-
-
-
-
-
-    # print(ordered_final_df)
-
-    # skills_df = get_table(table='skills')
-    # skills_df = pd.read_sql_table('skills', settings.ENGINE_STRING)[skills_df['name'].isin(skill_names)].rename(
-    #     columns={'id': 'skill_id', 'name': 'skill_title'})[
-    #     ['skill_id', 'skill_title']]
-    # skill_ids = skills_df[['skill_id', 'skill_title']].set_index(
-    #     'skill_id').to_dict(orient='index')
-    #
-    #
-    # if len(skill_ids) != 0:
-    #     for skill_key, skill_obj in skill_ids.items():
-    #         sel_job_skills_df = job_skills_df[(job_skills_df['skill_id'] == int(skill_key))]
-    #         skill_demand_df = pd.merge(sel_job_skills_df, jobs_df, how='left', on='job_id')[['job_id', column]]
-    #         demand_per_column = skill_demand_df.groupby([column])['job_id'].size().reset_index(
-    #             name='count').sort_values('count', ascending=asc).tail(limit)
-    #         for el in demand_per_column[column].values.tolist():
-    #             if el not in column_values:
-    #                 column_values.append(el)
-    #         part_final_values = list(demand_per_column.to_dict('index').values())
-    #         final_values[skill_key] = part_final_values
-    #     for col_val in column_values:
-    #         dict = {}
-    #         dict[column] = col_val
-    #         for key, value in final_values.items():
-    #             for el in value:
-    #                 if el[column] == col_val:
-    #                     dict[skill_ids[key]['skill_title']] = el['count']
-    #                     break
-    #         results.append(dict)
-    #     print(results)
-    #     return results
-    # else:
-    #     return []
 
 
 def courses_avg_grades(courses):
