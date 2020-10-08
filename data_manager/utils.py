@@ -33,6 +33,13 @@ def trajectory_score_computing(max_parent, score):
     result = max_parent * score / 100
     return result
 
+def convert_list_to_string_tuple(list):
+    string = "("
+    for el in list:
+        string = string + "'" + str(el) + "',"
+    string = string[:-1] + ")"
+    return string
+
 
 def recursive_search_trajectory(data, trajectory_data):
     for job in data:
