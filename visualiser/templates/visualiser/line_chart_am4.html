@@ -27,6 +27,8 @@
             var xAxis;
             console.log(use_default_colors);
             console.log(color_list);
+            console.log(chart.data);
+            console.log(x_axis_name);
 
             // Create axes
             if (x_axis_type === "time") {
@@ -48,14 +50,15 @@
             valueAxis.title.fontWeight = 600;
 
 
+
             // Create series
             var series=[];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }else{
-                    series[i] = create_series(x_axis_name + "_" + String(i), y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
+                    series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }
             }
@@ -86,6 +89,8 @@
             function create_series(setNameOfX, myVar, fillColor, xAxisType, myVarTitle, myVarUnit) {
                 <!-- Set the range  between open and close and set and the close-->
                 console.log(fillColor);
+                console.log(setNameOfX);
+
                 var series = chart.series.push(new am4charts.LineSeries());
 
                 series.name = myVarTitle;
@@ -93,7 +98,7 @@
                 if (xAxisType === "time") {
                     series.dataFields.dateX = setNameOfX;
                 } else if (xAxisType === "text") {
-                    series.dataFields.categoryX
+                    series.dataFields.categoryX = setNameOfX;
                 } else {
                     series.dataFields.valueX = setNameOfX;
                 }

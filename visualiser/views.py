@@ -5,7 +5,8 @@ from django.shortcuts import render
 from data_manager.manager import build_bar_chart, build_pie_chart, build_circular_gauge, build_line_chart, \
     build_cylinder_gauge, build_sankey_chart, build_radar_chart
 from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
-    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA, SANKEYCHORD_DATA, SANKEY_DATA_3
+    BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA, SANKEYCHORD_DATA, SANKEY_DATA_3, \
+    FAKE_DATA
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.clickjacking import xframe_options_exempt

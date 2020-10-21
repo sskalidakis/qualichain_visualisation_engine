@@ -7,7 +7,8 @@ from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_
     covered_application_skills_from_course, skill_relation_with_user_applications, get_user_skills_for_job, user_grades, \
     get_avg_course_names
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
-from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage
+from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage, \
+    specialization_demand_in_time
 from data_manager.utils import recursive_search_trajectory
 from visualiser.fake_data.fake_data import SANKEY_DATA_3
 
@@ -38,9 +39,13 @@ def build_line_chart(request, **kwargs):
     if base_query == 'skill_demand_in_time':
         skill_id = request.GET.get('skill_id', None)
         specialization = request.GET.get('specialization', None)
-        if skill_id and specialization:
-            print("i am here")
+        if skill_id:
             values = skill_demand_in_time(skill_id=skill_id, specialization=specialization)
+            return values
+    if base_query == 'specialization_demand_in_time':
+        specializations = str(tuple(request.GET.getlist('y_var_names[]', [])))
+        if specializations != '()':
+            values = specialization_demand_in_time(specializations)
             return values
 
 
