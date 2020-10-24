@@ -1,8 +1,12 @@
 import datetime
 
 import pandas as pd
+import requests
+import json
 
 from django.conf import settings
+
+from data_manager.data_manager_settings import CURR_DESIGNER_PORT, QC_HOST, KBZ_HOST, CAREER_ADVISOR_PORT
 
 
 def get_table(**kwargs):
@@ -74,3 +78,24 @@ def format_bar_chart_input(dataframe, list_of_columns, group_by_columns, aggrega
     values = group.to_dict(orient=orient).values()
     values_to_list = list(values)
     return values_to_list
+
+def curriculum_up_to_date():
+
+    url = 'http://{}:{}/curriculum_skill_coverage'.format(QC_HOST, CURR_DESIGNER_PORT)
+    headers = {
+        'Content-Type': "application/json",
+        'Postman-Token': "53181693-dfea-47df-8a4e-2d7124aeb47a",
+        'Cache-Control': "no-cache"
+    }
+    response = requests.request("POST", url, data={}, headers=headers)
+    return json.loads(response.text)['curriculum_skill_coverage']*100
+
+def career_path_trajectory():
+    url = 'http://{}:{}/career_path_trajectory'.format(KBZ_HOST, CAREER_ADVISOR_PORT)
+    headers = {
+        'Content-Type': "application/json",
+        'Postman-Token': "53181693-dfea-47df-8a4e-2d7124aeb47a",
+        'Cache-Control': "no-cache"
+    }
+    response = requests.request("GET", url, data={}, headers=headers)
+    return response

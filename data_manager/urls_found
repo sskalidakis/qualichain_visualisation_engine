@@ -27,6 +27,9 @@ With CV (Cylinder gauge)
 With CV (Circular gauge)
 (xx)http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_cv&user_id=6&course_id=44
 
+Curriculum-up-to-date:
+http://localhost:8000/visualiser/show_circular_gauge_chart?x_axis_name=up_to_date&x_axis_title=Up To Date&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=curriculum_up_to_date
+
 
 With Job Applications (Cylinder gauge)
 (xx)http://localhost:8000/visualiser/show_cylinder_gauge_chart?x_axis_name=relation&x_axis_title=Relation&x_axis_unit=%&color_list_request[]=red&color_list_request[]=blue&use_default_colors=false&min_max_y_value[]=0&min_max_y_value[]=100&base_query=course_match_applications&user_id=6&course_id=44

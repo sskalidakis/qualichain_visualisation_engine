@@ -9,7 +9,7 @@ from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage, \
     specialization_demand_in_time
-from data_manager.utils import recursive_search_trajectory
+from data_manager.utils import recursive_search_trajectory, curriculum_up_to_date
 from visualiser.fake_data.fake_data import SANKEY_DATA_3
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
@@ -82,6 +82,9 @@ def build_circular_gauge(request, **kwargs):
         if user_id and skill_id:
             value = skill_relation_with_user_applications(user_id, skill_id)
             return value
+    elif base_query == 'curriculum_up_to_date':
+        value = curriculum_up_to_date()
+        return value
 
 
 def build_cylinder_gauge(request, **kwargs):
