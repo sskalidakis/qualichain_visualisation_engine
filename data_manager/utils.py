@@ -37,6 +37,7 @@ def trajectory_score_computing(max_parent, score):
     result = max_parent * score / 100
     return result
 
+
 def convert_list_to_string_tuple(list):
     string = "("
     for el in list:
@@ -51,8 +52,6 @@ def recursive_search_trajectory(data, trajectory_data):
             for el in job['nextpositions']:
                 trajectory_data.append({"from": job["position"], "to": el["position"], "value": job['score']})
             trajectory_data = recursive_search_trajectory(job['nextpositions'], trajectory_data)
-        else:
-            pass
     return trajectory_data
 
 
@@ -70,17 +69,24 @@ def find_overlap_percentage(nominator, denominator):
 def format_bar_chart_input(dataframe, list_of_columns, group_by_columns, aggregation, new_columns=None,
                            fill_na_value=None, orient='index'):
     """This function is used to format a dataframe according the provided parameters"""
-    group = dataframe[list_of_columns].groupby(group_by_columns).agg(aggregation).reset_index()
-    if new_columns:
-        group = group.rename(columns=new_columns)
+    if group_by_columns == 'specialization_id':
+        df_chunk = dataframe[list_of_columns]
+        specializations = get_table(table='specialization')
+        merged_data = pd.merge(df_chunk, specializations, left_on='specialization_id', right_on='id')
+        group = merged_data.groupby('title').agg(aggregation).reset_index().rename(
+            columns={'specialization_id': 'count', 'title': 'specialization_id'})
+    else:
+        group = dataframe[list_of_columns].groupby(group_by_columns).agg(aggregation).reset_index()
+        if new_columns:
+            group = group.rename(columns=new_columns)
     if fill_na_value:
         group = group.fillna(fill_na_value)
     values = group.to_dict(orient=orient).values()
     values_to_list = list(values)
     return values_to_list
 
-def curriculum_up_to_date():
 
+def curriculum_up_to_date():
     url = 'http://{}:{}/curriculum_skill_coverage'.format(QC_HOST, CURR_DESIGNER_PORT)
     headers = {
         'Content-Type': "application/json",
@@ -88,7 +94,8 @@ def curriculum_up_to_date():
         'Cache-Control': "no-cache"
     }
     response = requests.request("POST", url, data={}, headers=headers)
-    return json.loads(response.text)['curriculum_skill_coverage']*100
+    return json.loads(response.text)['curriculum_skill_coverage'] * 100
+
 
 def career_path_trajectory():
     url = 'http://{}:{}/career_path_trajectory'.format(KBZ_HOST, CAREER_ADVISOR_PORT)

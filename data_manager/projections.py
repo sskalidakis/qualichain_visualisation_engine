@@ -32,26 +32,26 @@ def skill_demand_in_time(skill_id, specialization):
     """This function is used to find skill demand in a specific specialization in function of time"""
     if specialization:
         sql_command = """
-        SELECT job_skill.skill_id, jobs.specialization, jobs.date
+        SELECT job_skill.skill_id, jobs.specialization_id, jobs.date_published
         FROM 
         (SELECT * from job_skills WHERE skill_id={skill_id}) as job_skill
         JOIN jobs
         ON job_skill.job_id=jobs.id
-        WHERE specialization='{specialization}'
-        """.format(**{'skill_id': skill_id, 'specialization': specialization})
+        WHERE specialization_id={specialization}
+        """.format(**{'skill_id': skill_id, 'specialization': int(specialization)})
     else:
         sql_command = """
-                SELECT job_skill.skill_id, jobs.date
+                SELECT job_skill.skill_id, jobs.date_published
                 FROM 
                 (SELECT * from job_skills WHERE skill_id={skill_id}) as job_skill
                 JOIN jobs
                 ON job_skill.job_id=jobs.id
                 """.format(**{'skill_id': skill_id})
     skills_jobs_data = get_table(sql_command=sql_command)
-    grouped_dates = skills_jobs_data.groupby('date').count().reset_index().rename(
-        columns={'date': 'time', 'skill_id': 'skill_demand'})
+    grouped_dates = skills_jobs_data.groupby('date_published').count().reset_index().rename(
+        columns={'date_published': 'time', 'skill_id': 'skill_demand'})
     grouped_dates['time'] = grouped_dates['time'].apply(
-        lambda row: date_to_unix(row))
+        lambda row: int(row.timestamp()) * 1000)
     values = list(grouped_dates.to_dict('index').values())
     return values
 
@@ -59,18 +59,18 @@ def skill_demand_in_time(skill_id, specialization):
 def specialization_demand_in_time(specializations):
     """This function is used to find specialization demand in function of time"""
     sql_command = """
-    SELECT jobs.specialization, jobs.date, count(jobs.id) as count
+    SELECT jobs.specialization_id, jobs.date_published, count(jobs.id) as count
     FROM jobs
-    WHERE jobs.specialization IN {specializations}
-    GROUP BY jobs.specialization, jobs.specialization, jobs.date
-    ORDER BY jobs.specialization, jobs.date
+    WHERE jobs.specialization_id IN {specializations}
+    GROUP BY jobs.specialization_id, jobs.specialization_id, jobs.date_published
+    ORDER BY jobs.specialization_id, jobs.date_published
     """.format(**{"specializations": specializations})
     specialization_demand_data = get_table(sql_command=sql_command).rename(
-        columns={'date': 'time'})
+        columns={'date_published': 'time'})
     specialization_demand_data['time'] = specialization_demand_data['time'].apply(
-        lambda row: date_to_unix(row))
+        lambda row: int(row.timestamp())*1000)
     values = list(
-        specialization_demand_data.pivot(index='time', columns='specialization', values='count').reset_index().fillna(
+        specialization_demand_data.pivot(index='time', columns='specialization_id', values='count').reset_index().fillna(
             0).to_dict('index').values())
 
     return values
