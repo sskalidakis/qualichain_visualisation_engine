@@ -43,7 +43,7 @@ def build_line_chart(request, **kwargs):
             values = skill_demand_in_time(skill_id=skill_id, specialization=specialization)
             return values
     if base_query == 'specialization_demand_in_time':
-        specializations = str(tuple(request.GET.getlist('y_var_names[]', [])))
+        specializations = tuple(request.GET.getlist('y_var_names[]', []))
         if specializations != '()':
             values = specialization_demand_in_time(specializations)
             return values

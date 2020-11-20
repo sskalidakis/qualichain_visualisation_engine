@@ -1,5 +1,6 @@
 FROM python:3.7-slim
-RUN apt-get update && apt-get install -y netcat
+
+RUN apt-get update && apt-get install -y netcat && apt-get install dos2unix
 
 # User arguments on Dockerfile build
 ARG SETTINGS
@@ -19,4 +20,5 @@ COPY config/.env visualisation_engine/settings
 COPY config/.env visualisation_engine/
 
 EXPOSE ${PORT}
+RUN dos2unix config/run.sh
 CMD bash config/run.sh
