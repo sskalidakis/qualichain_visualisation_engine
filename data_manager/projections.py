@@ -1,7 +1,7 @@
 import pandas as pd
 
 from django.conf import settings
-from data_manager.utils import get_table, date_to_unix, find_overlap_percentage
+from data_manager.utils import get_table, date_to_unix, find_overlap_percentage, get_specialization_data
 from visualiser.utils import convert_string_to_boolean
 
 
@@ -58,22 +58,29 @@ def skill_demand_in_time(skill_id, specialization):
 
 def specialization_demand_in_time(specializations):
     """This function is used to find specialization demand in function of time"""
+    specialization_title_values, specialization_id_values = get_specialization_data(titles=specializations)
+    map_specializations = tuple(map(lambda x: specialization_title_values[x], tuple(specializations)))
+
     sql_command = """
     SELECT jobs.specialization_id, jobs.date_published, count(jobs.id) as count
     FROM jobs
     WHERE jobs.specialization_id IN {specializations}
     GROUP BY jobs.specialization_id, jobs.specialization_id, jobs.date_published
     ORDER BY jobs.specialization_id, jobs.date_published
-    """.format(**{"specializations": specializations})
+    """.format(**{"specializations": map_specializations})
     specialization_demand_data = get_table(sql_command=sql_command).rename(
         columns={'date_published': 'time'})
     specialization_demand_data['time'] = specialization_demand_data['time'].apply(
         lambda row: int(row.timestamp())*1000)
+
+    specialization_demand_data['specialization_id'] = specialization_demand_data['specialization_id'].apply(
+        lambda x: specialization_id_values[x]
+    )
     values = list(
         specialization_demand_data.pivot(index='time', columns='specialization_id', values='count').reset_index().fillna(
             0).to_dict('index').values())
-
     return values
+
 
 def group_courses_users(limit, asc):
     """This function is used to find the number of courses per professor"""

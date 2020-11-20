@@ -106,3 +106,20 @@ def career_path_trajectory():
     }
     response = requests.request("GET", url, data={}, headers=headers)
     return response
+
+
+def get_specialization_data(**kwargs):
+    """This function is used to take parts of specialization data"""
+    titles = kwargs['titles']
+    if len(titles) == 1:
+        fetch_specialization = """SELECT * FROM specialization WHERE title={}""".format(titles[0])
+    else:
+        fetch_specialization = """SELECT * FROM specialization WHERE title in {}""".format(titles)
+    specialization_data = pd.read_sql_query(fetch_specialization, settings.ENGINE_STRING)
+
+    specialization_title_values = specialization_data.set_index('title')
+    specialization_id_values = specialization_data.set_index('id')
+
+    specialization_title_values = list(specialization_title_values.to_dict().values())[0]
+    specialization_id_values = list(specialization_id_values.to_dict().values())[0]
+    return specialization_title_values, specialization_id_values
