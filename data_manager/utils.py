@@ -1,12 +1,29 @@
 import datetime
+import tempfile
 
 import pandas as pd
 import requests
 import json
 
+import sqlalchemy
 from django.conf import settings
 
 from data_manager.data_manager_settings import CURR_DESIGNER_PORT, QC_HOST, KBZ_HOST, CAREER_ADVISOR_PORT
+
+
+def read_sql_tmpfile(query, db_engine):
+    """This function is used to load a tmpfile as DataFrame"""
+    with tempfile.TemporaryFile() as tmpfile:
+        copy_sql = "COPY ({query}) TO STDOUT WITH CSV {head}".format(
+            query=query, head="HEADER"
+        )
+        conn = db_engine.raw_connection()
+        cur = conn.cursor()
+        cur.copy_expert(copy_sql, tmpfile)
+        tmpfile.seek(0)
+        cur.close()
+        df = pd.read_csv(tmpfile)
+        return df
 
 
 def get_table(**kwargs):
@@ -16,12 +33,16 @@ def get_table(**kwargs):
     :param kwargs: provided kwargs
     :return: pandas DataFrame
     """
+    db_engine = sqlalchemy.create_engine(settings.ENGINE_STRING)
     if 'sql_command' in kwargs.keys():
         sql_command = kwargs['sql_command']
-        table_df = pd.read_sql_query(sql_command, settings.ENGINE_STRING)
+        table_df = read_sql_tmpfile(sql_command, db_engine)
+        # table_df = pd.read_sql_query(sql_command, settings.ENGINE_STRING)
     elif 'table' in kwargs.keys():
         table = kwargs['table']
-        table_df = pd.read_sql_table(table, settings.ENGINE_STRING)
+        sql_command = """SELECT * FROM {table}""".format(table=table)
+        table_df = read_sql_tmpfile(sql_command, db_engine)
+        # table_df = pd.read_sql_table(table, settings.ENGINE_STRING)
     else:
         table_df = pd.DataFrame()
     return table_df
