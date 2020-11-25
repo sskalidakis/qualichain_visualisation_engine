@@ -45,6 +45,7 @@ def get_table(**kwargs):
         # table_df = pd.read_sql_table(table, settings.ENGINE_STRING)
     else:
         table_df = pd.DataFrame()
+    db_engine.dispose()
     return table_df
 
 
