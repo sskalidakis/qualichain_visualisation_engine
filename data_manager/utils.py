@@ -119,14 +119,15 @@ def curriculum_up_to_date():
     return json.loads(response.text)['curriculum_skill_coverage'] * 100
 
 
-def career_path_trajectory():
-    url = 'http://{}:{}/career_path_trajectory'.format(KBZ_HOST, CAREER_ADVISOR_PORT)
+def career_path_trajectory(user_id):
+    url = 'http://{}:{}/cv/{}/careerPath'.format(KBZ_HOST, CAREER_ADVISOR_PORT, user_id)
     headers = {
         'Content-Type': "application/json",
         'Postman-Token': "53181693-dfea-47df-8a4e-2d7124aeb47a",
         'Cache-Control': "no-cache"
     }
     response = requests.request("GET", url, data={}, headers=headers)
+    response = json.loads("[" + response.text.replace("'", '"') + " ]")
     return response
 
 

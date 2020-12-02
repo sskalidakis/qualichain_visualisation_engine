@@ -9,7 +9,7 @@ from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage, \
     specialization_demand_in_time
-from data_manager.utils import recursive_search_trajectory, curriculum_up_to_date
+from data_manager.utils import recursive_search_trajectory, curriculum_up_to_date, career_path_trajectory
 from visualiser.fake_data.fake_data import SANKEY_DATA_3
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
@@ -22,9 +22,9 @@ def build_sankey_chart(request, **kwargs):
     """This function is used to build sankey charts"""
     base_query = request.GET.get('base_query', None)
     if base_query == 'career_path_trajectory':
-        data = SANKEY_DATA_3
-        trajectory_data = []
-        trajectory_data = recursive_search_trajectory(data, trajectory_data)
+        user_id = request.GET.get('user_id', None)
+        trajectory_data = career_path_trajectory(user_id)
+        # trajectory_data = recursive_search_trajectory(data, trajectory_data)
         node_list = []
         for el in trajectory_data:
             if el["from"] not in node_list:
