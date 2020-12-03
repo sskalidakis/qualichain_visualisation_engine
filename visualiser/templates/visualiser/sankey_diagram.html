@@ -39,7 +39,8 @@
 
             chart.dataFields.fromName = "from";
             chart.dataFields.toName = "to";
-            chart.dataFields.value = "value";
+            chart.dataFields.value = "visual";
+            chart.dataFields.suitability = "value";
             chart.dataFields.color = "nodeColor";
 
 
@@ -65,7 +66,7 @@
             nodeTemplate.fillOpacity = 0.9;
 
             var nodeLink = chart.links.template;
-            nodeLink.tooltipText = "{from} "  + " Suitability:" +  "{value}"+ "%"  +"→" +" {to}" 
+            nodeLink.tooltipText = "{from} "  + " Suitability:" +  "{suitability}"+ "%"  +"→" +" {to}"
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
             bullet.fillOpacity = 1;
             bullet.circle.radius = 7;

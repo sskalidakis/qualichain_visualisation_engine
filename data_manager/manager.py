@@ -24,13 +24,27 @@ def build_sankey_chart(request, **kwargs):
     if base_query == 'career_path_trajectory':
         user_id = request.GET.get('user_id', None)
         trajectory_data = career_path_trajectory(user_id)
-        # trajectory_data = recursive_search_trajectory(data, trajectory_data)
         node_list = []
-        for el in trajectory_data:
-            if el["from"] not in node_list:
-                node_list.append(el["from"])
-            if el["to"] not in node_list:
-                node_list.append(el["to"])
+        visual_list = {}
+        for obj in trajectory_data:
+            if obj["from"] not in node_list:
+                node_list.append(obj["from"])
+            if obj["to"] not in node_list:
+                node_list.append(obj["to"])
+
+            sel_el = obj['from']
+            if sel_el not in visual_list.keys():
+                count = 0
+                for d in trajectory_data:
+                    if d['from'] == sel_el:
+                        count = count + 1
+                visual_list[sel_el] = count
+
+
+        for obj in trajectory_data:
+            if obj['from'] in visual_list.keys():
+                obj['visual'] = 100 / visual_list[obj['from']]
+
         return trajectory_data, node_list
 
 def build_line_chart(request, **kwargs):
