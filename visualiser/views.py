@@ -318,8 +318,6 @@ def show_circular_gauge_chart(request):
     use_default_colors = response_data['use_default_colors']
     chart_3d = ""
     min_max_y_value = response_data['min_max_y_value']
-    dataset = response_data['dataset']
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
     data = build_circular_gauge(request)
 
     color_list = define_color_code_list(color_list_request)
@@ -342,9 +340,7 @@ def show_cylinder_gauge_chart(request):
     use_default_colors = response_data['use_default_colors']
     min_max_y_value = response_data['min_max_y_value']
     chart_3d = "false"
-    dataset = response_data['dataset']
     data = build_cylinder_gauge(request)
-    # data = GAUGE_DATA
     color_list = define_color_code_list(color_list_request)
 
     cylinder_gauge_chart = X_chart(request, x_axis_name, x_axis_title, x_axis_unit, data, color_list,
@@ -370,10 +366,7 @@ def show_line_chart(request):
     use_default_colors = response_data['use_default_colors']
     chart_3d = ""
     min_max_y_value = response_data['min_max_y_value']
-    dataset = response_data['dataset']
 
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
-    # data = FAKE_DATA
     data = build_line_chart(request)
 
     color_list = define_color_code_list(color_list_request)
@@ -401,7 +394,7 @@ def show_column_chart(request):
     color_list_request = response_data["color_list_request"]
     use_default_colors = response_data["use_default_colors"]
     chart_3d = response_data["chart_3d"]
-    # TODO: Create a method for getting the actual data from DBs, CSV files, dataframes??
+
     data = build_bar_chart(x_axis_name, request=request)
 
     color_list = define_color_code_list(color_list_request)

@@ -127,7 +127,12 @@ def career_path_trajectory(user_id):
         'Cache-Control': "no-cache"
     }
     response = requests.request("GET", url, data={}, headers=headers)
-    response = json.loads("[" + response.text.replace("'", '"') + " ]")
+
+    try:
+        response = json.loads("[" + response.text.replace("'", '"') + " ]")
+    except Exception:
+        print(response.text)
+        response = []
     return response
 
 
