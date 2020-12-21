@@ -353,6 +353,20 @@ BAR_HEATMAP_DATA_2 = [{
     },
 ]
 
+SANKEY_FAKE_TRAJECTORY = [{'from': 'Product Manager', 'to': 'Senior advisory', 'value': 1},
+                          {'from': 'Software Architect', 'to': 'Product Manager', 'value': 10},
+                          {'from': 'Full-Stack Developer', 'to': 'Product Manager', 'value': 20},
+                          {'from': 'Server Service Expert', 'to': 'Software Architect', 'value': 10},
+                          {'from': 'Back-End Developer', 'to': 'Server Service Expert', 'value': 10},
+                          {'from': 'Junior programmer', 'to': 'Front-End Developer', 'value': 40},
+                          {'from': 'Front-End Developer', 'to': 'Full-Stack Developer', 'value': 20},
+                          {'from': 'Senior Developer', 'to': 'Lead Developer', 'value': 10},
+                          {'from': 'Intern programmer', 'to': 'Junior programmer', 'value': 100},
+                          {'from': 'Senior advisory', 'to': 'End of career', 'value': 20},
+                          {'from': 'Junior programmer', 'to': 'Senior Developer', 'value': 90},
+                          {'from': 'Intern programmer', 'to': 'Back-End Developer', 'value': 100}
+                          ]
+
 HEAT_MAP_DATA_FOR_MAP = [{"id": "US", "value": 18}, {"id": "MF", "value": 15}, {"id": "NU", "value": 16},
                          {"id": "BF", "value": 18}, {"id": "TF", "value": 13}, {"id": "GU", "value": 16},
                          {"id": "NC", "value": 17}, {"id": "TV", "value": 16}, {"id": "CC", "value": 16},

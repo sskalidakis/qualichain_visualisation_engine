@@ -60,13 +60,16 @@
             nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer;
             nodeTemplate.width = 20;
             nodeTemplate.nameLabel.label.fontWeight = "bold";
+            nodeTemplate.nameLabel.label.fontSize= "0.9em";
+            nodeTemplate.nameLabel.label.wrap= true;
+            nodeTemplate.nameLabel.label.truncate = false;
             nodeTemplate.inert = true;
             nodeTemplate.stroke = am4core.color("#efefef");
             nodeTemplate.strokeWidth = 1;
             nodeTemplate.fillOpacity = 0.9;
 
             var nodeLink = chart.links.template;
-            nodeLink.tooltipText = "{from} "  + " Suitability:" +  "{suitability}"+ "%"  +"→" +" {to}"
+            nodeLink.tooltipText = "{from} -"  + " Suitability:" +  "{suitability}"+ "%"  +"→" +" {to}"
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
             bullet.fillOpacity = 1;
             bullet.circle.radius = 7;
