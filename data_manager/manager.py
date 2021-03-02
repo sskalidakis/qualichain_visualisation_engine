@@ -9,8 +9,8 @@ from data_manager.joined_ops import covered_skills_from_user, covered_cv_skills_
 from data_manager.limit_ops import popular_user_courses, popular_user_skills, popular_courses, popular_skills
 from data_manager.projections import skill_demand_in_time, group_courses_users, enrolled_courses_applications_coverage, \
     specialization_demand_in_time
-from data_manager.utils import recursive_search_trajectory, curriculum_up_to_date, career_path_trajectory
-from visualiser.fake_data.fake_data import SANKEY_DATA_3
+from data_manager.utils import curriculum_up_to_date, career_path_trajectory
+
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -24,6 +24,7 @@ def build_sankey_chart(request, **kwargs):
     if base_query == 'career_path_trajectory':
         user_id = request.GET.get('user_id', None)
         trajectory_data = career_path_trajectory(user_id)
+        print(trajectory_data)
         node_list = []
         visual_list = {}
         for obj in trajectory_data:
@@ -31,19 +32,21 @@ def build_sankey_chart(request, **kwargs):
                 node_list.append(obj["from"])
             if obj["to"] not in node_list:
                 node_list.append(obj["to"])
+        #
+        #     sel_el = obj['from']
+        #     if sel_el not in visual_list.keys():
+        #         count = 0
+        #         for d in trajectory_data:
+        #             if d['from'] == sel_el:
+        #                 count = count + 1
+        #         visual_list[sel_el] = count
+        #
+        #
+        # for obj in trajectory_data:
+        #     if obj['from'] in visual_list.keys():
+        #         obj['visual'] = 100 / visual_list[obj['from']]
 
-            sel_el = obj['from']
-            if sel_el not in visual_list.keys():
-                count = 0
-                for d in trajectory_data:
-                    if d['from'] == sel_el:
-                        count = count + 1
-                visual_list[sel_el] = count
-
-
-        for obj in trajectory_data:
-            if obj['from'] in visual_list.keys():
-                obj['visual'] = 100 / visual_list[obj['from']]
+        print(trajectory_data)
 
         return trajectory_data, node_list
 

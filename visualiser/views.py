@@ -6,7 +6,7 @@ from data_manager.manager import build_bar_chart, build_pie_chart, build_circula
     build_cylinder_gauge, build_sankey_chart, build_radar_chart
 from visualiser.fake_data.fake_data import COLUMNCHART_DATA, RADAR_CHART_DATA, BAR_HEATMAP_DATA_2, \
     BAR_RANGE_CHART_DATA_2, SANKEYCHORD_DATA_2, HEAT_MAP_DATA_FOR_MAP, GAUGE_DATA, SANKEYCHORD_DATA, SANKEY_DATA_3, \
-    FAKE_DATA
+    FAKE_DATA, SANKEY_FAKE_TRAJECTORY, SANKEY_FAKE_TRAJECTORY2
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.clickjacking import xframe_options_exempt
@@ -664,6 +664,8 @@ def sankey_diagram(request):
     # From utils use AM_CHARTS_COLOR_CODES_LIST to convert colors' names to hex code of given colors
     color_node_list = [AM_CHARTS_COLOR_CODES_LIST[color_name] for color_name in color_node_list]
     data, node_list = build_sankey_chart(request)
+    # data =SANKEY_FAKE_TRAJECTORY2
+    node_list = []
     sankey_diagram = FlowChart(request, data, node_list, color_node_list, use_def_colors, chart_title, 'sankey_diagram')
     return sankey_diagram.show_chart()
 

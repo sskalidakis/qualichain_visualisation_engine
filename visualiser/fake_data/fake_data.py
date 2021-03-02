@@ -353,19 +353,37 @@ BAR_HEATMAP_DATA_2 = [{
     },
 ]
 
-SANKEY_FAKE_TRAJECTORY = [{'from': 'Product Manager', 'to': 'Senior advisory', 'value': 1},
-                          {'from': 'Software Architect', 'to': 'Product Manager', 'value': 10},
-                          {'from': 'Full-Stack Developer', 'to': 'Product Manager', 'value': 20},
-                          {'from': 'Server Service Expert', 'to': 'Software Architect', 'value': 10},
-                          {'from': 'Back-End Developer', 'to': 'Server Service Expert', 'value': 10},
-                          {'from': 'Junior programmer', 'to': 'Front-End Developer', 'value': 40},
-                          {'from': 'Front-End Developer', 'to': 'Full-Stack Developer', 'value': 20},
-                          {'from': 'Senior Developer', 'to': 'Lead Developer', 'value': 10},
-                          {'from': 'Intern programmer', 'to': 'Junior programmer', 'value': 100},
-                          {'from': 'Senior advisory', 'to': 'End of career', 'value': 20},
-                          {'from': 'Junior programmer', 'to': 'Senior Developer', 'value': 90},
-                          {'from': 'Intern programmer', 'to': 'Back-End Developer', 'value': 100}
-                          ]
+SANKEY_FAKE_TRAJECTORY = [
+    {'from': 'Product Manager', 'to': 'Senior advisory', 'value': 1, "missing_skills": "senior_adv_missing_skills" },
+    {'from': 'Software Architect', 'to': 'Product Manager', 'value': 100, "missing_skills": "product_m_missing_skills"},
+    {'from': 'Full-Stack Developer', 'to': 'Product Manager', 'value': 100, "missing_skills": "product_m_missing_skills"},
+    {'from': 'Server Service Expert', 'to': 'Software Architect', 'value': 10, "missing_skills": "sa_missing_skills"},
+    {'from': 'Back-End Developer', 'to': 'Server Service Expert', 'value': 10, "missing_skills": "sse_missing_skills"},
+    {'from': 'Junior programmer', 'to': 'Front-End Developer', 'value': 10, "missing_skills": "fe_d_missing_skills"},
+    {'from': 'Front-End Developer', 'to': 'Full-Stack Developer', 'value': 1, "missing_skills": "fsd_missing_skills"},
+    {'from': 'Senior Developer', 'to': 'Lead Developer', 'value': 11, "missing_skills": "l_d_missing_skills"},
+    {'from': 'Intern programmer', 'to': 'Junior programmer', 'value': 1, "missing_skills": "j_p_missing_skills"},
+    {'from': 'Senior advisory', 'to': 'End of career', 'value': 20, "missing_skills": "e_o_c_missing_skills"},
+    {'from': 'Junior programmer', 'to': 'Senior Developer', 'value': 90, "missing_skills": "s_d_missing_skills"},
+    {'from': 'Intern programmer', 'to': 'Back-End Developer', 'value': 100, "missing_skills": "b_d_missing_skills"}
+    ]
+
+# ordered by hierarchy in order to appear correctly on the sankey diagram
+SANKEY_FAKE_TRAJECTORY2 = [
+    {'from': 'Intern programmer', 'to': 'Back-End Developer', 'value': 5, 'missing_skills': []},
+    {'from': 'Intern programmer', 'to': 'Junior programmer', 'value': 5, 'missing_skills': []},
+    {'from': 'Back-End Developer', 'to': 'Server Service Expert', 'value': 5, 'missing_skills': []},
+    {'from': 'Junior programmer', 'to': 'Front-End Developer', 'value': 5, 'missing_skills': []},
+    {'from': 'Junior programmer', 'to': 'Senior Developer', 'value': 5, 'missing_skills': []},
+    {'from': 'Server Service Expert', 'to': 'Software Architect', 'value': 5, 'missing_skills': []},
+    {'from': 'Front-End Developer', 'to': 'Full-Stack Developer', 'value': 5, 'missing_skills': []},
+    {'from': 'Senior Developer', 'to': 'Lead Developer', 'value': 5, 'missing_skills': []},
+    {'from': 'Software Architect', 'to': 'Product Manager', 'value': 5, 'missing_skills': []},
+    {'from': 'Full-Stack Developer', 'to': 'Product Manager', 'value': 5, 'missing_skills': []},
+    {'from': 'Product Manager', 'to': 'Senior advisory', 'value': 5, 'missing_skills': []},
+    {'from': 'Senior advisory', 'to': 'End of career', 'value': 5,
+     'missing_skills': ['Final skill for end of career']},
+]
 
 HEAT_MAP_DATA_FOR_MAP = [{"id": "US", "value": 18}, {"id": "MF", "value": 15}, {"id": "NU", "value": 16},
                          {"id": "BF", "value": 18}, {"id": "TF", "value": 13}, {"id": "GU", "value": 16},

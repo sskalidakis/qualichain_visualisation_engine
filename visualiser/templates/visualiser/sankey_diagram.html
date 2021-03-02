@@ -39,9 +39,10 @@
 
             chart.dataFields.fromName = "from";
             chart.dataFields.toName = "to";
-            chart.dataFields.value = "visual";
+            chart.dataFields.value = "value";
             chart.dataFields.suitability = "value";
             chart.dataFields.color = "nodeColor";
+            chart.dataFields.missing_skills = "missing_skills";
 
 
             let hoverState = chart.links.template.states.create("hover");
@@ -68,9 +69,12 @@
             nodeTemplate.strokeWidth = 1;
             nodeTemplate.fillOpacity = 0.9;
 
+
             var nodeLink = chart.links.template;
-            nodeLink.tooltipText = "{from} -"  + " Suitability:" +  "{suitability}"+ "%"  +"→" +" {to}"
+            nodeLink.tooltipText = "{from} -"  + " Suitability:" +  "{suitability}"+ "%"  +"→" +" {to}\n Missing Skills:\n{missing_skills}"
             var bullet = nodeLink.bullets.push(new am4charts.CircleBullet());
+
+
             bullet.fillOpacity = 1;
             bullet.circle.radius = 7;
             bullet.locationX = 0.5;

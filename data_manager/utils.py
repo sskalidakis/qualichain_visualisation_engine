@@ -121,6 +121,7 @@ def curriculum_up_to_date():
 
 def career_path_trajectory(user_id):
     url = 'http://{}:{}/cv/{}/careerPath'.format(KBZ_HOST, CAREER_ADVISOR_PORT, user_id)
+    print("Calling KBZ API:", url)
     headers = {
         'Content-Type': "application/json",
         'Postman-Token': "53181693-dfea-47df-8a4e-2d7124aeb47a",
@@ -129,7 +130,7 @@ def career_path_trajectory(user_id):
     response = requests.request("GET", url, data={}, headers=headers)
 
     try:
-        response = json.loads("[" + response.text.replace("'", '"') + " ]")
+        response = json.loads(response.text.replace("'", '"'))
     except Exception:
         print(response.text)
         response = []
