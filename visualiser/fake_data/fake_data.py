@@ -385,6 +385,23 @@ SANKEY_FAKE_TRAJECTORY2 = [
      'missing_skills': ['Final skill for end of career']},
 ]
 
+SANKEY_FAKE_TRAJECTORY3 = [
+    {'from': 'Intern programmer', 'to': 'Back-End Developer', 'value': 100, 'missing_skills': []},
+    {'from': 'Intern programmer', 'to': 'Junior programmer', 'value': 100, 'missing_skills': []},
+    {'from': 'Back-End Developer', 'to': 'Server Service Expert', 'value': 10, 'missing_skills': []},
+    {'from': 'Junior programmer', 'to': 'Front-End Developer', 'value': 100, 'missing_skills': []},
+    {'from': 'Junior programmer', 'to': 'Senior Developer', 'value': 100, 'missing_skills': []},
+    {'from': 'Server Service Expert', 'to': 'Software Architect', 'value': 10, 'missing_skills': []},
+    {'from': 'Front-End Developer', 'to': 'Full-Stack Developer', 'value': 10, 'missing_skills': []},
+    {'from': 'Senior Developer', 'to': 'Lead Developer', 'value': 100, 'missing_skills': []},
+    {'from': 'Software Architect', 'to': 'Product Manager', 'value': 10, 'missing_skills': []},
+    {'from': 'Full-Stack Developer', 'to': 'Product Manager', 'value': 10, 'missing_skills': []},
+    {'from': 'Product Manager', 'to': 'Senior advisory', 'value': 10, 'missing_skills': []},
+    {'from': 'Senior advisory', 'to': 'End of career', 'value': 10,
+     'missing_skills': ['Final skill for end of career']},
+
+]
+
 HEAT_MAP_DATA_FOR_MAP = [{"id": "US", "value": 18}, {"id": "MF", "value": 15}, {"id": "NU", "value": 16},
                          {"id": "BF", "value": 18}, {"id": "TF", "value": 13}, {"id": "GU", "value": 16},
                          {"id": "NC", "value": 17}, {"id": "TV", "value": 16}, {"id": "CC", "value": 16},

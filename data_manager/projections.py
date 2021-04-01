@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 from django.conf import settings
 from data_manager.utils import get_table, date_to_unix, find_overlap_percentage, get_specialization_data
@@ -51,7 +52,7 @@ def skill_demand_in_time(skill_id, specialization):
     grouped_dates = skills_jobs_data.groupby('date_published').count().reset_index().rename(
         columns={'date_published': 'time', 'skill_id': 'skill_demand'})
     grouped_dates['time'] = grouped_dates['time'].apply(
-        lambda row: int(row.timestamp()) * 1000)
+        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S.%f').timestamp()) * 1000)
     values = list(grouped_dates.to_dict('index').values())
     return values
 
@@ -71,7 +72,7 @@ def specialization_demand_in_time(specializations):
     specialization_demand_data = get_table(sql_command=sql_command).rename(
         columns={'date_published': 'time'})
     specialization_demand_data['time'] = specialization_demand_data['time'].apply(
-        lambda row: int(row.timestamp())*1000)
+        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S.%f').timestamp()) * 1000)
 
     specialization_demand_data['specialization_id'] = specialization_demand_data['specialization_id'].apply(
         lambda x: specialization_id_values[x]

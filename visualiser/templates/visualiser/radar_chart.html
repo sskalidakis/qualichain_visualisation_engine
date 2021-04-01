@@ -47,6 +47,8 @@
 
 
 
+
+
                 valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
                 if (use_default_colors == true) {
                     valueAxis.renderer.axisFills.template.fill = chart.colors.getIndex(2);
@@ -57,6 +59,9 @@
 
 
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.min = 0;
+            valueAxis.max = 10;
+            valueAxis.strictMinMax = true;
 
             var series = [];
             for (var i = 0; i < variable_name.length; i++) {
