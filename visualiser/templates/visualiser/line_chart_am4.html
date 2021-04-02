@@ -1,6 +1,16 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
-    <div id="chartdiv"></div>
+    <div id="no-data-cont" style=" position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -150px;
+    width: 300px;
+    height: 100px; display: none">No Data Available to be Visualised
+    </div>
+    <div id="chartdiv">
+
+    </div>
     <script>
         am4core.ready(function () {
 
@@ -13,6 +23,11 @@
 
             // Add data
             chart.data = {{ chart_data|safe }};
+            if (chart.data.length === 0) {
+                $("#no-data-cont").show();
+            }
+            console.log('DATAA');
+            console.log(chart.data);
             chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
             var x_axis_type = "{{ x_axis_type }}";
             var x_axis_title = "{{x_axis_title}}";
@@ -39,7 +54,7 @@
                 xAxis = chart.xAxes.push(new am4charts.ValueAxis());
             }
             xAxis.renderer.minGridDistance = 50;
-            xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")" ;
+            xAxis.title.text = x_axis_title + " (" + x_axis_unit + ")";
             xAxis.title.fontWeight = 600;
             xAxis.title.marginTop = 10;
             xAxis.title.marginBottom = 20;
@@ -50,14 +65,13 @@
             valueAxis.title.fontWeight = 600;
 
 
-
             // Create series
-            var series=[];
+            var series = [];
             for (var i = 0; i < y_var_names.length; i++) {
                 if (use_default_colors) {
                     series[i] = create_series(x_axis_name, y_var_names[i], chart.colors.getIndex(i), x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
-                }else{
+                } else {
                     series[i] = create_series(x_axis_name, y_var_names[i], color_list[i], x_axis_type, y_var_titles[i],
                         y_var_units[i], valueAxis);
                 }

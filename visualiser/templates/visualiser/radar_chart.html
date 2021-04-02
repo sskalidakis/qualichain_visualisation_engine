@@ -1,5 +1,13 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
+    <div id="no-data-cont" style=" position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -150px;
+    width: 300px;
+    height: 100px; display: none">No Data Available to be Visualised
+    </div>
     <div id="chartdiv"></div>
     <script>
         am4core.ready(function () {
@@ -39,6 +47,9 @@
             chart_title.valign = "top";
 
             chart.data = chart_data;
+            if (chart.data.length === 0) {
+                $("#no-data-cont").show();
+            }
 
             /* Create axes */
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());

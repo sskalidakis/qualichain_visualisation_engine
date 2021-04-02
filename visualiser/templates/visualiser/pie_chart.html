@@ -1,5 +1,14 @@
 {% extends 'visualiser/main_visualiser_am4.html' %}
 {% block content %}
+    <div id="no-data-cont" style=" position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -150px;
+    width: 300px;
+    height: 100px; display: none">No Data Available to be Visualised
+    </div>
+
     <div id="chartdiv"></div>
     <script>
         am4core.ready(function () {
@@ -9,6 +18,7 @@
 // Themes end
 
             var chart_data = {{ chart_data|safe }};
+
             var chart_3d = {{ chart_3d }};
             if (chart_3d) {
                 var chart = am4core.create("chartdiv", am4charts.PieChart3D);
@@ -45,6 +55,9 @@
 
 
             chart.data = chart_data;
+            if (chart.data.length === 0) {
+                $("#no-data-cont").show();
+            }
 
             var series;
             if (chart_3d) {
