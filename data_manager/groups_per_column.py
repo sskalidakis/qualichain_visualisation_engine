@@ -75,11 +75,11 @@ def calculate_salary_insights(sql_command, aggregation, column="country"):
     """This function is used to calculate salary insights"""
     info = get_table(sql_command=sql_command)
     if column:
-        group = info[["level_value", "exp_salary", column]].groupby(['level_value', column]).agg(aggregation)
+        group = info[["level", "exp_salary", column]].groupby(['level', column]).agg(aggregation)
         gr = group.reset_index(column).pivot(columns=column, values='exp_salary').reset_index().fillna(0)
         values = gr.to_dict('index').values()
     else:
-        group = info[["level_value", "exp_salary"]].groupby(['level_value']).agg(aggregation)
+        group = info[["level", "exp_salary"]].groupby(['level']).agg(aggregation)
         values = group.reset_index().to_dict('index').values()
     return values
 
