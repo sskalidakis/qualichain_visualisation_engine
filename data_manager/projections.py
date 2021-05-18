@@ -87,7 +87,7 @@ def group_courses_users(limit, asc):
     """This function is used to find the number of courses per professor"""
     asc = convert_string_to_boolean(asc)
     user_courses_df = get_table(table='user_courses')
-    professor_courses_df = user_courses_df.where(user_courses_df['status_value'] == 'taught')
+    professor_courses_df = user_courses_df.where(user_courses_df['course_status'] == 'taught')
     grouped_professor_courses_df = professor_courses_df[['user_id', 'id']].groupby('user_id').size().reset_index(
         name='count').sort_values('count', ascending=asc).tail(limit)
     users_df = get_table(table='users').rename(columns={'id': 'user_id', 'fullName': 'user_name'})
@@ -100,7 +100,7 @@ def group_courses_users(limit, asc):
 def get_user_enrolled_courses_skills(user_id):
     """This function is used to retrieve a list of skills provided in user's enrolled courses"""
     user_enrolled_courses_df = get_table(
-        sql_command="SELECT * FROM user_courses WHERE user_id={user_id} AND status_value='{status}'".format(
+        sql_command="SELECT * FROM user_courses WHERE user_id={user_id} AND course_status='{status}'".format(
             **{'user_id': user_id, 'status': 'enrolled'})
     )
     courses = user_enrolled_courses_df['course_id'].tolist()

@@ -80,7 +80,7 @@ def popular_user_courses(asc, number_of_courses):
     """This function is used to find the most popular courses in the Qualichain users"""
     asc = convert_string_to_boolean(asc)
     user_courses_df = get_table(table='user_courses')
-    user_courses_df = user_courses_df.where(user_courses_df['status_value'] != 'taught')
+    user_courses_df = user_courses_df.where(user_courses_df['course_status'] != 'taught')
 
     final_values = limit_ops_skeleton(
         group_phase={

@@ -100,7 +100,7 @@ def get_user_skills_for_job(user_id, job_id):
 
 def user_grades(user_id):
     """This function is used to fetch user grades"""
-    user_grades_command = """SELECT course_id, grade FROM user_courses WHERE status_value='{status}' and user_id={user_id}""".format(
+    user_grades_command = """SELECT course_id, grade FROM user_courses WHERE course_status='{status}' and user_id={user_id}""".format(
         **{'status': 'done', 'user_id': user_id})
     user_grades_df = get_table(sql_command=user_grades_command)
     course_ids = user_grades_df['course_id'].tolist()
