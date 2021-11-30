@@ -33,7 +33,7 @@ def skill_demand_in_time(skill_id, specialization):
     """This function is used to find skill demand in a specific specialization in function of time"""
     if specialization:
         sql_command = """
-        SELECT job_skill.skill_id, jobs.specialization_id, jobs.date_published
+        SELECT job_skill.skill_id, jobs.specialization_id, DATE_TRUNC('month',jobs.date_published) as date_published
         FROM 
         (SELECT * from job_skills WHERE skill_id={skill_id}) as job_skill
         JOIN jobs
@@ -42,7 +42,7 @@ def skill_demand_in_time(skill_id, specialization):
         """.format(**{'skill_id': skill_id, 'specialization': int(specialization)})
     else:
         sql_command = """
-                SELECT job_skill.skill_id, jobs.date_published
+                SELECT job_skill.skill_id, DATE_TRUNC('month',jobs.date_published) as date_published
                 FROM 
                 (SELECT * from job_skills WHERE skill_id={skill_id}) as job_skill
                 JOIN jobs
@@ -52,7 +52,7 @@ def skill_demand_in_time(skill_id, specialization):
     grouped_dates = skills_jobs_data.groupby('date_published').count().reset_index().rename(
         columns={'date_published': 'time', 'skill_id': 'skill_demand'})
     grouped_dates['time'] = grouped_dates['time'].apply(
-        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S.%f').timestamp()) * 1000)
+        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S').timestamp()) * 1000)
     values = list(grouped_dates.to_dict('index').values())
     return values
 
@@ -63,16 +63,16 @@ def specialization_demand_in_time(specializations):
     map_specializations = tuple(map(lambda x: specialization_title_values[x], tuple(specializations)))
 
     sql_command = """
-    SELECT jobs.specialization_id, jobs.date_published, count(jobs.id) as count
+    SELECT jobs.specialization_id, DATE_TRUNC('month',jobs.date_published) as month_date, count(jobs.id) as count
     FROM jobs
     WHERE jobs.specialization_id IN {specializations}
-    GROUP BY jobs.specialization_id, jobs.specialization_id, jobs.date_published
-    ORDER BY jobs.specialization_id, jobs.date_published
+    GROUP BY jobs.specialization_id, jobs.specialization_id,  month_date
+    ORDER BY jobs.specialization_id, month_date
     """.format(**{"specializations": map_specializations})
     specialization_demand_data = get_table(sql_command=sql_command).rename(
-        columns={'date_published': 'time'})
+        columns={'month_date': 'time'})
     specialization_demand_data['time'] = specialization_demand_data['time'].apply(
-        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S.%f').timestamp()) * 1000)
+        lambda row: int(datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S').timestamp()) * 1000)
 
     specialization_demand_data['specialization_id'] = specialization_demand_data['specialization_id'].apply(
         lambda x: specialization_id_values[x]
