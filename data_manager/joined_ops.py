@@ -3,6 +3,7 @@ from data_manager.projections import retrieve_user_skills, fetch_user_cv_skills,
 from django.conf import settings
 from data_manager.utils import get_table, find_overlap_percentage
 import pandas as pd
+import logging
 
 
 def covered_skills_from_user(user_id, job_id):
@@ -76,19 +77,20 @@ def skill_relation_with_user_applications(user_id, skill_id):
 def get_user_skills_for_job(user_id, job_id):
     user_skills_df = fetch_user_cv_skills(user_id)
     job_skills_df = fetch_job_skills(job_id)
-
-    joined_df = pd.merge(user_skills_df, job_skills_df, on='skill_id', how='outer')
+    joined_df = pd.merge(job_skills_df, user_skills_df, on='skill_id', how='left')
     joined_df = joined_df.fillna(0.0)
-
-    skill_ids = joined_df['skill_id'].values.tolist()
-    if len(skill_ids) > 1:
-        fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id in {skills_tuple}""".format(
-            **{'skills_tuple': tuple(skill_ids)})
-    elif len(skill_ids) == 1:
-        fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id={skill_id}""".format(
-            **{'skill_id': skill_ids[0]})
-    else:
+    if joined_df.empty:
         fetch_skill_names = None
+    else:
+        skill_ids = joined_df['skill_id'].values.tolist()
+        if len(skill_ids) > 1:
+            fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id in {skills_tuple}""".format(
+                **{'skills_tuple': tuple(skill_ids)})
+        elif len(skill_ids) == 1:
+            fetch_skill_names = """SELECT name, id as skill_id FROM skills WHERE id={skill_id}""".format(
+                **{'skill_id': skill_ids[0]})
+        else:
+            fetch_skill_names = None
     if fetch_skill_names:
         skill_details = get_table(sql_command=fetch_skill_names)
         enhanced_joined_skills = pd.merge(joined_df, skill_details, on='skill_id')
