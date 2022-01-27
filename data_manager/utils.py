@@ -120,7 +120,7 @@ def curriculum_up_to_date():
 
 
 def career_path_trajectory(user_id):
-    url = 'http://{}:{}/cv/{}/careerPath'.format(KBZ_HOST, CAREER_ADVISOR_PORT, user_id)
+    url = '{}/cv/{}/careerPath'.format(KBZ_HOST, CAREER_ADVISOR_PORT, user_id)
     print("Calling KBZ API:", url)
     headers = {
         'Content-Type': "application/json",
