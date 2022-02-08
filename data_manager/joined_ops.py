@@ -14,7 +14,7 @@ def covered_skills_from_user(user_id, job_id):
     )
     job_skills_df = get_table(sql_command=jobs_skills_sql_command)
     job_skills_list = list(job_skills_df.skill_id)
-    overlap_percentage = find_overlap_percentage(nominator=job_skills_list, denominator=job_skills_list)
+    overlap_percentage = find_overlap_percentage(nominator=users_skills_list, denominator=job_skills_list)
     return overlap_percentage
 
 
